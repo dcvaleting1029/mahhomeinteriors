@@ -1,115 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
+:root {
+    /* MA Home Interiors locked palette */
+    --ma-bg: #FFFFFF;
+    --ma-bg-warm: #F7F3EC;
+    --ma-beige: #EAE1D4;
+    --ma-taupe: #C8B79F;
+    --ma-gold: #C9983F;
+    --ma-gold-dark: #A87E2C;
+    --ma-text: #111111;
+    --ma-muted: #6F6A63;
+    --ma-border: #E5DED3;
+
+    /* shadcn vars (kept compatible) */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 7%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 0 0% 7%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 36 33% 95%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 36 33% 95%;
+    --muted-foreground: 36 5% 42%;
+    --accent: 39 53% 52%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 36 28% 89%;
+    --input: 36 28% 89%;
+    --ring: 39 53% 52%;
+    --radius: 0.125rem;
+}
+
+* {
+    border-color: var(--ma-border);
+}
+
+html, body {
     margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
+    background: var(--ma-bg);
+    color: var(--ma-text);
+    font-family: 'Manrope', -apple-system, system-ui, sans-serif;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
-code {
-    font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+body { line-height: 1.55; }
+
+::selection {
+    background: var(--ma-gold);
+    color: white;
 }
 
-@layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-    .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-    }
+h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ma-text);
 }
 
-@layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+/* MA logo monogram */
+.ma-logo-mono {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
 }
 
-@layer base {
-    [data-debug-wrapper="true"] {
-        display: contents !important;
-    }
-
-    [data-debug-wrapper="true"] > * {
-        margin-left: inherit;
-        margin-right: inherit;
-        margin-top: inherit;
-        margin-bottom: inherit;
-        padding-left: inherit;
-        padding-right: inherit;
-        padding-top: inherit;
-        padding-bottom: inherit;
-        column-gap: inherit;
-        row-gap: inherit;
-        gap: inherit;
-        border-left-width: inherit;
-        border-right-width: inherit;
-        border-top-width: inherit;
-        border-bottom-width: inherit;
-        border-left-style: inherit;
-        border-right-style: inherit;
-        border-top-style: inherit;
-        border-bottom-style: inherit;
-        border-left-color: inherit;
-        border-right-color: inherit;
-        border-top-color: inherit;
-        border-bottom-color: inherit;
-    }
+/* Micro labels (uppercase letter-spaced) */
+.ma-eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ma-gold);
 }
+
+.ma-link {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ma-text);
+    transition: color .25s ease;
+}
+.ma-link:hover { color: var(--ma-gold); }
+
+/* Gold button */
+.btn-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    background: var(--ma-gold);
+    color: white;
+    border: 1px solid var(--ma-gold);
+    transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+    cursor: pointer;
+}
+.btn-gold:hover {
+    background: var(--ma-gold-dark);
+    border-color: var(--ma-gold-dark);
+}
+.btn-gold:disabled { opacity: .55; cursor: not-allowed; }
+
+.btn-outline-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 12px 18px;
+    background: transparent;
+    color: var(--ma-text);
+    border: 1px solid var(--ma-border);
+    transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+    cursor: pointer;
+}
+.btn-outline-gold:hover {
+    background: var(--ma-gold);
+    color: white;
+    border-color: var(--ma-gold);
+}
+
+.btn-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    background: var(--ma-text);
+    color: white;
+    border: 1px solid var(--ma-text);
+    transition: background-color .35s ease;
+    cursor: pointer;
+}
+.btn-dark:hover { background: #2a2a2a; }
+
+/* Product card hover */
+.product-card .product-img {
+    transition: transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.product-card:hover .product-img {
+    transform: scale(1.06);
+}
+.product-card:hover {
+    box-shadow: 0 30px 60px -20px rgba(17,17,17,.08);
+}
+
+/* Subtle fade up on viewport */
+.fade-up {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .8s ease, transform .8s ease;
+}
+.fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Sticky header blur */
+.ma-header {
+    transition: background-color .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+}
+.ma-header.scrolled {
+    background-color: rgba(255,255,255,0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--ma-border);
+}
+
+/* Inputs */
+.ma-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--ma-border);
+    padding: 14px 0 10px 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: var(--ma-text);
+    outline: none;
+    transition: border-color .25s ease;
+}
+.ma-input:focus {
+    border-bottom-color: var(--ma-gold);
+}
+.ma-input::placeholder {
+    color: var(--ma-muted);
+    font-size: 13px;
+}
+
+.ma-input-block {
+    width: 100%;
+    background: var(--ma-bg);
+    border: 1px solid var(--ma-border);
+    padding: 14px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: var(--ma-text);
+    outline: none;
+    transition: border-color .25s ease;
+}
+.ma-input-block:focus {
+    border-color: var(--ma-gold);
+}
+
+/* Editorial divider */
+.ma-divider { height: 1px; background: var(--ma-border); }
+
+/* Gradient mask for hero */
+.hero-mask-left {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 35%);
+            mask-image: linear-gradient(to right, transparent 0%, black 35%);
+}
+
+/* Carousel scrollbar hide */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Star color */
+.star-gold { color: var(--ma-gold); }
+
+/* Spinner */
+.ma-spinner {
+    width: 18px; height: 18px;
+    border: 2px solid var(--ma-border);
+    border-top-color: var(--ma-gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

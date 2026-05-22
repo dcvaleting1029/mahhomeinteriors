@@ -1,54 +1,70 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import "./index.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "./components/ui/sonner";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { AuthProvider } from "./contexts/AuthContext";
+import { CartProvider } from "./contexts/CartContext";
+import { WishlistProvider } from "./contexts/WishlistContext";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import Collections from "./pages/Collections";
+import Collection from "./pages/Collection";
+import ProductDetail from "./pages/ProductDetail";
+import CartPage from "./pages/CartPage";
+import Checkout from "./pages/Checkout";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+import AccountLayout from "./pages/account/AccountLayout";
+import Overview from "./pages/account/Overview";
+import Orders from "./pages/account/Orders";
+import OrderDetail from "./pages/account/OrderDetail";
+import Wishlist from "./pages/account/Wishlist";
+import Addresses from "./pages/account/Addresses";
+import AccountDetails from "./pages/account/AccountDetails";
 
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <AuthProvider>
+            <WishlistProvider>
+                <CartProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/shop" element={<Shop />} />
+                            <Route path="/collections" element={<Collections />} />
+                            <Route path="/collections/:id" element={<Collection />} />
+                            <Route path="/product/:slug" element={<ProductDetail />} />
+                            <Route path="/cart" element={<CartPage />} />
+                            <Route path="/checkout" element={<Checkout />} />
+                            <Route path="/payment/success" element={<PaymentSuccess />} />
+                            <Route path="/payment/failed" element={<PaymentFailed />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/signup" element={<Signup />} />
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
+
+                            <Route path="/account" element={<AccountLayout />}>
+                                <Route index element={<Overview />} />
+                                <Route path="orders" element={<Orders />} />
+                                <Route path="orders/:id" element={<OrderDetail />} />
+                                <Route path="wishlist" element={<Wishlist />} />
+                                <Route path="addresses" element={<Addresses />} />
+                                <Route path="details" element={<AccountDetails />} />
+                            </Route>
+
+                            <Route path="*" element={<Navigate to="/" replace />} />
+                        </Routes>
+                        <Toaster position="bottom-right" />
+                    </BrowserRouter>
+                </CartProvider>
+            </WishlistProvider>
+        </AuthProvider>
+    );
 }
 
 export default App;

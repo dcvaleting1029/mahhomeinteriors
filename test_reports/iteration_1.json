@@ -1,0 +1,54 @@
+{
+  "summary": "Full end-to-end review of MA Home Interiors. Backend: 30/31 pytest cases pass (97%). Frontend: home, shop, PDP, cart drawer, login (with prefilled seed creds), account dashboard, and checkout pages all load and render correctly with locked palette + serif typography. Stripe checkout SESSION creation works (returns valid url + correct server-computed totals), but GET /api/checkout/status/{session_id} returns 500 immediately after creation — this breaks the Payment Success polling page.",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "GET /api/checkout/status/{session_id}",
+        "issue": "Returns 500 with emergentintegrations CheckoutError: 'No such checkout.session: cs_test_...'. Reproduced via test_create_session_guest: POST /api/checkout/session succeeds and returns session_id + URL, but an immediate GET status call fails. Because /payment/success polls this endpoint, the success page will never resolve to paid. Possibly a Stripe test-mode account-context mismatch in the emergentintegrations StripeCheckout client, or a propagation delay. Needs investigation by main agent (may need to retry with backoff, or pass account/mode argument).",
+        "priority": "HIGH"
+      }
+    ],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Payment Success polling",
+        "issue": "Frontend /payment/success polls /api/checkout/status which currently returns 500 (see backend critical issue). End-to-end Stripe redirect therefore cannot be verified.",
+        "affected_selectors": ["/payment/success"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Fix GET /api/checkout/status/{session_id} returning 500. The session_id is valid (just created via emergentintegrations StripeCheckout.create_checkout_session) but the immediate get_checkout_status call raises 'No such checkout.session'. Try: (a) ensure both calls share the same StripeCheckout instance/api_key, (b) add a small retry/backoff (Stripe sometimes 404s for ~1s after creation), (c) confirm STRIPE_API_KEY=sk_test_emergent is the correct test key for the integrations.emergentagent.com proxy.",
+    "(Optional) GET /api/auth/me returns 401 for guests, which is correct, but the frontend AuthContext bootstrap call surfaces console errors on every page load. Consider catching the 401 silently or short-circuiting if there is no token client-side hint."
+  ],
+  "critical_code_review_comments": [
+    "Backend computes price/shipping server-side from product map and rejects unknown product ids — good (frontend cannot inject prices).",
+    "Free delivery threshold of £100 correctly applied: subtotal>=£100 -> shipping=0, otherwise £4.99 standard / £6.99 express. Verified by tests.",
+    "Auth cookies set with samesite=none + secure=true; CORS allow_credentials=true with explicit origins. Confirmed login from preview URL sets cookie and /auth/me returns user.",
+    "Seed routine is idempotent and updates admin password on env change — good.",
+    "MongoDB queries already exclude `_id` via projections everywhere.",
+    "products.py is approaching 350 lines with the seed list inline — could be split into a seeds module, but not blocking.",
+    "payments.py: no retry on get_checkout_status; the 500 response is uncaught — would benefit from try/except returning 502 with a friendly message or implementing retry with backoff.",
+    "JWT_SECRET is hard-coded in .env (fine for dev). Rotate before production.",
+    "All major interactive elements have data-testid attributes (header-cart, cart-badge, hero-cta, category-*, look-*, login-email/password/submit, product-card-*, add-to-cart-detail, buy-now, qty-inc/dec, colour-*). Good test coverage hooks."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py"
+  ],
+  "success_rate": {"backend": "97%", "frontend": "95%"},
+  "test_credentials": "Customer: customer@mahomeinteriors.com / customer12345 (verified seeded and logs in successfully). Admin: admin@mahomeinteriors.com / admin12345.",
+  "seed_data_creation": "Backend lifespan auto-seeds 10 products, 4 collections, 5 categories, admin and customer user. Verified live via GET endpoints. No additional seeding needed by tests.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "main_agent_can_self_test": false,
+  "context_for_next_testing_agent": "Backend regression suite lives at /app/backend/tests/backend_test.py (pytest, 31 tests). One failing test (TestCheckout::test_create_session_guest) asserts that GET /api/checkout/status returns 200 after a POST /api/checkout/session — currently fails with 500 from emergentintegrations. Frontend pages confirmed loading via Playwright: /, /shop, /product/luna-table-lamp, /cart (empty state), /login (prefilled creds), /account (welcome card + sidebar), /checkout (4-step form). PDP add-to-cart testid is `add-to-cart-detail` (not `add-to-cart`). Account sidebar links don't share a common parent testid; individual link testids should be used. Once the checkout/status 500 is fixed, re-run pytest and then drive the full Stripe redirect to verify the success page polling end-to-end.",
+  "rca_of_the_issue": "Stripe checkout.status 500: emergentintegrations.payments.stripe.checkout.StripeCheckout.get_checkout_status raises CheckoutError('No such checkout.session: cs_test_…') even though the same session_id was returned by create_checkout_session moments earlier. Two likely causes: (1) the emergentintegrations proxy at integrations.emergentagent.com routes create vs status to different Stripe test accounts, or (2) brief eventual-consistency delay. Mitigation suggestions: wrap status call in try/except with 1-2 short retries (sleep 0.5s, 1.0s), or report a friendly 202/Pending payload to the frontend until propagation completes."
+}
