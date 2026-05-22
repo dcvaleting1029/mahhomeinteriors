@@ -1,0 +1,188 @@
+{
+  "theme": "LIGHT",
+  "archetype": "Organic & Earthy / Jewel & Luxury Blend (Context-dependent)",
+  "colors": {
+    "primary_background": "#FFFFFF",
+    "secondary_background": "#F7F3EC",
+    "soft_beige": "#EAE1D4",
+    "warm_taupe": "#C8B79F",
+    "gold_accent": "#C9983F",
+    "dark_text": "#111111",
+    "muted_text": "#6F6A63",
+    "border": "#E5DED3"
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Cormorant Garamond, serif",
+      "style": "Elegant, refined, tight letter spacing for large headers",
+      "weights": ["400", "500", "600"]
+    },
+    "body": {
+      "font_family": "Manrope, sans-serif",
+      "style": "Clean, spacious, modern",
+      "weights": ["300", "400", "500"]
+    },
+    "buttons_nav": {
+      "style": "small uppercase letter spacing (tracking-widest), text-xs or text-sm"
+    }
+  },
+  "layout_spacing": {
+    "philosophy": "Generous Spacing, clean and premium editorial feel.",
+    "container_padding": "px-6 md:px-12 lg:px-24",
+    "section_gap": "py-24 md:py-32",
+    "border_radius": "rounded-none (sharp edges for editorial feel) or very subtle rounded-sm"
+  },
+  "motion": {
+    "image_hover": "scale 1.05, 600ms ease transition",
+    "button_hover": "outlined ADD TO CART button that fills gold (#C9983F) on hover with white text",
+    "header": "Sticky blurred header on scroll (backdrop-blur-md bg-white/80)",
+    "entry": "Fade-up on viewport entry (using framer-motion)",
+    "parallax": "Subtle parallax on hero image"
+  },
+  "components": {
+    "hero": "Full width or large bento with 'Beautiful Spaces. Designed for You.' ('You.' in gold), gold CTA, gradient fade-mask on image.",
+    "benefits_bar": "4 cols with fine line icons in gold, border-y border-[#E5DED3] bg-[#F7F3EC]",
+    "product_card": "Minimalist card, black NEW badge with gold border, outlined ADD TO CART button filling gold on hover, image zoom on hover.",
+    "shop_by_category": "5 landscape cards, horizontal scroll or grid, overlay text.",
+    "why_choose": "Feature grid + Trustpilot-style overlay card (4.8 / 2,357 reviews).",
+    "shop_the_look": "4 landscape look cards, editorial layout.",
+    "newsletter": "Strip with envelope icon, beige background.",
+    "footer": "Rich editorial footer with payment icons."
+  },
+  "media": {
+    "hero": [
+      {
+        "url": "https://images.unsplash.com/photo-1758448755778-90ebf4d0f1e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwzfHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "luxury bright living room neutral palette beige sofa",
+        "category": "hero_lifestyle"
+      }
+    ],
+    "categories": [
+      {
+        "url": "https://images.unsplash.com/photo-1768144092684-c1a5dd6c7aad?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Furniture",
+        "category": "category_card"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1667312939934-60fc3bfa4ec0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwyfHxtaW5pbWFsaXN0JTIwaG9tZSUyMGRlY29yJTIwb2JqZWN0cyUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Decor & Accessories",
+        "category": "category_card"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1770731206301-43a9683f3438?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHw0fHxjZXJhbWljJTIwdGFibGV3YXJlJTIwbGluZW4lMjBuZXV0cmFsfGVufDB8fHx8MTc3OTQ4NzU2NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Tableware",
+        "category": "category_card"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1667312939978-64cf31718a6e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwaG9tZSUyMGRlY29yJTIwb2JqZWN0cyUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Candles & Fragrance",
+        "category": "category_card"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBuZXV0cmFsJTIwYXJtY2hhaXIlMjBzaWRlJTIwdGFibGV8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Textiles & Soft Furnishings",
+        "category": "category_card"
+      }
+    ],
+    "products": [
+      {
+        "url": "https://images.unsplash.com/photo-1667312939978-64cf31718a6e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwaG9tZSUyMGRlY29yJTIwb2JqZWN0cyUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Luna Table Lamp",
+        "category": "product"
+      },
+      {
+        "url": "https://images.pexels.com/photos/6207817/pexels-photo-6207817.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Nola Glass Pendant Light",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1667400104789-f50a4cb393cf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHw0fHxtaW5pbWFsaXN0JTIwaG9tZSUyMGRlY29yJTIwb2JqZWN0cyUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Natura Coffee Table",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBuZXV0cmFsJTIwYXJtY2hhaXIlMjBzaWRlJTIwdGFibGV8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Linen Cushion Cover",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1630330600342-c7c69cb08472?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwzfHxtaW5pbWFsaXN0JTIwaG9tZSUyMGRlY29yJTIwb2JqZWN0cyUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Amber Scented Candle",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1667312939934-60fc3bfa4ec0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwyfHxtaW5pbWFsaXN0JTIwaG9tZSUyMGRlY29yJTIwb2JqZWN0cyUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Alba Ceramic Vase",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1761330439771-c6a291fad061?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBuZXV0cmFsJTIwYXJtY2hhaXIlMjBzaWRlJTIwdGFibGV8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Marlow Bouclé Armchair",
+        "category": "product"
+      },
+      {
+        "url": "https://images.pexels.com/photos/35110892/pexels-photo-35110892.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Travertine Side Table",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1774477178005-bff823e43be8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBuZXV0cmFsJTIwYXJtY2hhaXIlMjBzaWRlJTIwdGFibGV8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Stonewashed Throw",
+        "category": "product"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1632996547902-064471618ef0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHwyfHxjZXJhbWljJTIwdGFibGV3YXJlJTIwbGluZW4lMjBuZXV0cmFsfGVufDB8fHx8MTc3OTQ4NzU2NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Matte Dinner Plate Set",
+        "category": "product"
+      }
+    ],
+    "shop_the_look": [
+      {
+        "url": "https://images.unsplash.com/photo-1761330439741-3dcf41ee766b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHw0fHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "The Modern Neutral",
+        "category": "look"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1768144092684-c1a5dd6c7aad?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Warm Minimalist",
+        "category": "look"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1771888703723-01d85da1dae1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwyfHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Contemporary Elegance",
+        "category": "look"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1769736436858-65a86b395ef7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBuZXV0cmFsJTIwYXJtY2hhaXIlMjBzaWRlJTIwdGFibGV8ZW58MHx8fHwxNzc5NDg3NTY0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Layered Comfort",
+        "category": "look"
+      }
+    ],
+    "misc": [
+      {
+        "url": "https://images.pexels.com/photos/7005270/pexels-photo-7005270.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Why Choose lifestyle",
+        "category": "why_choose"
+      },
+      {
+        "url": "https://images.pexels.com/photos/6198655/pexels-photo-6198655.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Newsletter community",
+        "category": "newsletter"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1761330439741-3dcf41ee766b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHw0fHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Collection page hero",
+        "category": "collection_hero"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Use the exact color tokens provided in the design guidelines. Do not invent new colors.",
+    "Implement Cormorant Garamond for all headings. Ensure it is imported via Google Fonts. Use Manrope for body text.",
+    "Do NOT use generic card components with heavy shadows. Use flat, clean, minimalistic containers with the specified border color (#E5DED3).",
+    "Ensure the header nav has uppercase text with generous letter spacing (tracking-widest).",
+    "For the hero section, implement a gradient mask on the left side of the image to blend it smoothly into the background, and overlay the text on the gradient.",
+    "Product images should scale up by 1.05 on hover (duration 600ms, ease out). The 'Add to Cart' button should start outlined in gold and fill with solid gold on hover.",
+    "All interactive elements must include a data-testid attribute in kebab-case."
+  ]
+}
