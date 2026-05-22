@@ -173,9 +173,36 @@ async def create_checkout(payload: CheckoutIn, request: Request):
 
 @router.get("/checkout/status/{session_id}")
 async def checkout_status(session_id: str, request: Request):
+    import asyncio
     from server import db
     stripe_checkout = _stripe(request)
-    status: CheckoutStatusResponse = await stripe_checkout.get_checkout_status(session_id)
+
+    # Retry with backoff — Stripe sometimes 404s for ~1-2s after session creation
+    last_err: Optional[Exception] = None
+    status: Optional[CheckoutStatusResponse] = None
+    for delay in (0.0, 0.6, 1.2, 2.0):
+        if delay:
+            await asyncio.sleep(delay)
+        try:
+            status = await stripe_checkout.get_checkout_status(session_id)
+            last_err = None
+            break
+        except Exception as e:
+            last_err = e
+            continue
+
+    if status is None:
+        # Return a soft-pending payload so the frontend can keep polling
+        existing = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+        return {
+            "session_id": session_id,
+            "status": existing.get("status", "open") if existing else "open",
+            "payment_status": existing.get("payment_status", "pending") if existing else "pending",
+            "amount_total": int(round((existing.get("amount", 0) if existing else 0) * 100)),
+            "currency": (existing.get("currency", "gbp") if existing else "gbp"),
+            "order": await db.orders.find_one({"session_id": session_id}, {"_id": 0}),
+            "error": str(last_err) if last_err else "unavailable",
+        }
 
     tx = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
     # Update only if state changed and not yet finalised
