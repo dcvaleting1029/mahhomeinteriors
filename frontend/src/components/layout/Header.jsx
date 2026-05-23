@@ -8,10 +8,10 @@ import { useAuth } from "../../contexts/AuthContext";
 const NAV = [
     { label: "NEW IN", href: "/shop?new=true" },
     { label: "SHOP", href: "/shop" },
+    { label: "KITCHEN & DINING", href: "/shop?category=Kitchen+%26+Dining" },
+    { label: "HOME LIVING", href: "/shop?category=Home+Living" },
     { label: "COLLECTIONS", href: "/collections" },
-    { label: "SETS", href: "/shop?category=Tableware" },
     { label: "SALE", href: "/shop?sale=true" },
-    { label: "JOURNAL", href: "/journal" },
     { label: "ABOUT", href: "/about" },
 ];
 

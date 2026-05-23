@@ -6,9 +6,9 @@ import ProductCard from "../components/ProductCard";
 import api from "../lib/api";
 import Reveal from "../components/Reveal";
 
-const CATEGORIES = ["All", "Furniture", "Lighting", "Decor & Accessories", "Tableware", "Candles & Fragrance", "Textiles"];
-const COLOURS = ["Bone", "Sand", "Clay", "Oat", "Ivory", "Pebble", "Charcoal", "Amber"];
-const MATERIALS = ["Ceramic", "Linen", "Stoneware", "Travertine", "Glass", "Bouclé", "Cotton", "Brass"];
+const CATEGORIES = ["All", "Kitchen & Dining", "Home Living"];
+const COLOURS = ["Black", "White", "Cream", "Grey", "Marble", "Gold", "Travertine", "Pink"];
+const MATERIALS = ["Stoneware", "Porcelain", "Glass", "Bouclé", "Velvet", "Travertine", "Mango Wood", "Marble"];
 
 export default function Shop() {
     const [params, setParams] = useSearchParams();
@@ -18,6 +18,7 @@ export default function Shop() {
 
     const category = params.get("category") || "All";
     const isNew = params.get("new") === "true";
+    const onSale = params.get("sale") === "true";
     const search = params.get("search") || "";
     const sort = params.get("sort") || "featured";
     const maxPrice = Number(params.get("max_price") || 1000);
@@ -29,6 +30,7 @@ export default function Shop() {
             const q = {};
             if (category && category !== "All") q.category = category;
             if (isNew) q.is_new = true;
+            if (onSale) q.on_sale = true;
             if (search) q.search = search;
             if (sort && sort !== "featured") q.sort = sort;
             if (maxPrice && maxPrice < 1000) q.max_price = maxPrice;
@@ -38,7 +40,7 @@ export default function Shop() {
             setProducts(items);
             setLoading(false);
         })();
-    }, [category, isNew, search, sort, maxPrice, inStockOnly]);
+    }, [category, isNew, onSale, search, sort, maxPrice, inStockOnly]);
 
     const setParam = (k, v) => {
         const next = new URLSearchParams(params);
@@ -108,12 +110,12 @@ export default function Shop() {
             <section className="border-b border-ma-border">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
                     <Reveal>
-                        <span className="ma-eyebrow">{isNew ? "New In" : category === "All" ? "Shop All" : category}</span>
+                        <span className="ma-eyebrow">{onSale ? "Sale" : isNew ? "New In" : category === "All" ? "Shop All" : category}</span>
                         <h1 className="font-serif text-[48px] md:text-[64px] leading-tight mt-3">
-                            {isNew ? "Just Arrived" : category === "All" ? "Shop All" : category}
+                            {onSale ? "On Sale" : isNew ? "Just Arrived" : category === "All" ? "Shop All" : category}
                         </h1>
                         <p className="text-ma-muted mt-3 max-w-xl text-[14px]">
-                            {search ? `Showing results for “${search}”` : "Curated pieces for timeless interiors."}
+                            {search ? `Showing results for “${search}”` : onSale ? "Limited-time savings on selected pieces." : "Curated pieces for timeless interiors."}
                         </p>
                     </Reveal>
                 </div>

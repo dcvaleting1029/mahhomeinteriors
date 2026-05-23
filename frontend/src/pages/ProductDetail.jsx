@@ -73,8 +73,13 @@ export default function ProductDetail() {
                     <Reveal delay={120} duration={900}>
                         <span className="ma-eyebrow">{p.category}</span>
                         <h1 className="font-serif text-[40px] md:text-[52px] leading-tight mt-3 mb-4">{p.name}</h1>
-                        <div className="flex items-center gap-3 mb-6">
+                        <div className="flex items-center gap-4 mb-6">
                             <span className="font-serif text-[26px]">{formatPrice(p.price, p.currency)}</span>
+                            {p.on_sale && p.original_price && p.original_price > p.price && (
+                                <span className="font-serif text-[18px] text-ma-muted line-through" data-testid="detail-price-original">
+                                    {formatPrice(p.original_price, p.currency)}
+                                </span>
+                            )}
                             <span className="flex items-center gap-1 text-[12px] text-ma-muted">
                                 <span className="star-gold flex">
                                     {[0,1,2,3,4].map((i) => <Star key={i} size={12} fill="currentColor" strokeWidth={0} />)}

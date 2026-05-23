@@ -99,24 +99,34 @@ export default function Home() {
                         </div>
                         <Link to="/shop" className="ma-link" data-testid="view-all-categories">View All Categories →</Link>
                     </Reveal>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 lg:gap-6">
-                        {categories.map((c, idx) => (
-                            <Reveal key={c.id} delay={idx * 90} as="div">
-                                <Link
-                                    data-testid={`category-${c.id}`}
-                                    to={`/shop?category=${encodeURIComponent(c.name)}`}
-                                    className="group block"
-                                >
-                                    <div className={`overflow-hidden bg-ma-warm ${idx === 0 ? "aspect-[3/4]" : "aspect-[4/5]"}`}>
-                                        <img src={c.image} alt={c.name} className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" loading="lazy" />
-                                    </div>
-                                    <div className="pt-5 flex flex-col gap-1">
-                                        <h3 className="font-serif text-[19px] leading-tight">{c.name}</h3>
-                                        <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop Now →</span>
-                                    </div>
-                                </Link>
-                            </Reveal>
-                        ))}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5 lg:gap-6">
+                        {categories.map((c, idx) => {
+                            const href = c.is_filter
+                                ? (c.filter === "new" ? "/shop?new=true" : "/shop?sale=true")
+                                : `/shop?category=${encodeURIComponent(c.name)}`;
+                            return (
+                                <Reveal key={c.id} delay={idx * 90} as="div">
+                                    <Link
+                                        data-testid={`category-${c.id}`}
+                                        to={href}
+                                        className="group block"
+                                    >
+                                        <div className="overflow-hidden bg-ma-warm aspect-[4/5] relative">
+                                            <img src={c.image} alt={c.name} className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" loading="lazy" />
+                                            {c.is_filter && (
+                                                <span className="absolute top-4 left-4 bg-white text-ma-text text-[9px] tracking-widest uppercase px-3 py-1.5 border border-ma-gold">
+                                                    {c.filter === "new" ? "New In" : "Save Now"}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="pt-5 flex flex-col gap-1">
+                                            <h3 className="font-serif text-[20px] leading-tight">{c.name}</h3>
+                                            <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop Now →</span>
+                                        </div>
+                                    </Link>
+                                </Reveal>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

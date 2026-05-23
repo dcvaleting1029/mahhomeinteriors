@@ -11,6 +11,7 @@ export default function ProductCard({ product, eager = false }) {
     const { has, toggle } = useWishlist();
     const isWished = has(product.id);
     const isNew = product.is_new || product.badge === "NEW";
+    const isSale = product.on_sale && product.original_price && product.original_price > product.price;
     const [quickOpen, setQuickOpen] = useState(false);
 
     return (
@@ -27,12 +28,20 @@ export default function ProductCard({ product, eager = false }) {
                             loading={eager ? "eager" : "lazy"}
                             className="product-img w-full h-full object-cover"
                         />
-                        {isNew && (
+                        {isNew && !isSale && (
                             <span
                                 data-testid="new-badge"
                                 className="absolute top-4 left-4 bg-ma-text text-white text-[9px] tracking-widest uppercase px-3 py-1.5 border border-ma-gold"
                             >
                                 New
+                            </span>
+                        )}
+                        {isSale && (
+                            <span
+                                data-testid="sale-badge"
+                                className="absolute top-4 left-4 bg-ma-gold text-white text-[9px] tracking-widest uppercase px-3 py-1.5"
+                            >
+                                Sale
                             </span>
                         )}
                     </Link>
@@ -66,8 +75,15 @@ export default function ProductCard({ product, eager = false }) {
                                 {product.name}
                             </Link>
                         </h3>
-                        <span className="font-sans text-sm text-ma-text whitespace-nowrap">
-                            {formatPrice(product.price, product.currency)}
+                        <span className="font-sans text-sm text-ma-text whitespace-nowrap flex items-center gap-2">
+                            {isSale && (
+                                <span className="text-ma-muted line-through text-[12.5px]" data-testid="price-original">
+                                    {formatPrice(product.original_price, product.currency)}
+                                </span>
+                            )}
+                            <span className={isSale ? "text-ma-gold font-semibold" : ""} data-testid="price-current">
+                                {formatPrice(product.price, product.currency)}
+                            </span>
                         </span>
                     </div>
                     {product.short_description && (
