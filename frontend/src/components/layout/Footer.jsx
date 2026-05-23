@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Instagram, Facebook, Mail } from "lucide-react";
 import MaLogo from "../MaLogo";
 
-const SHOP = ["New Arrivals", "Shop All", "Kitchen & Dining", "Home Living", "Collections", "Sale"];
+const SHOP = ["New Arrivals", "Shop All", "Kitchen & Dining", "Home Living", "Sale"];
 const CARE = ["Delivery Information", "Returns & Exchanges", "FAQs", "Size Guide", "Care Instructions", "Track My Order"];
 const ABOUT = ["About Us", "Our Journal", "Sustainability", "Trade Program", "Contact Us"];
 

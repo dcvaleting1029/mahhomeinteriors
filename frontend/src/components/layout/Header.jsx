@@ -10,7 +10,6 @@ const NAV = [
     { label: "SHOP", href: "/shop" },
     { label: "KITCHEN & DINING", href: "/shop?category=Kitchen+%26+Dining" },
     { label: "HOME LIVING", href: "/shop?category=Home+Living" },
-    { label: "COLLECTIONS", href: "/collections" },
     { label: "SALE", href: "/shop?sale=true" },
     { label: "ABOUT", href: "/about" },
 ];

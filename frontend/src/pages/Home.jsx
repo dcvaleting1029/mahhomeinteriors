@@ -12,19 +12,16 @@ const WHY_IMG = "https://images.pexels.com/photos/7005270/pexels-photo-7005270.j
 
 export default function Home() {
     const [products, setProducts] = useState([]);
-    const [collections, setCollections] = useState([]);
     const [categories, setCategories] = useState([]);
     const scrollerRef = useRef(null);
 
     useEffect(() => {
         (async () => {
-            const [p, cls, cats] = await Promise.all([
+            const [p, cats] = await Promise.all([
                 api.get("/products", { params: { is_new: true } }),
-                api.get("/products/collections"),
                 api.get("/products/categories"),
             ]);
             setProducts(p.data.items);
-            setCollections(cls.data.items);
             setCategories(cats.data.items);
         })();
     }, []);
@@ -201,34 +198,6 @@ export default function Home() {
                             <p className="ma-eyebrow !text-ma-muted text-[9px] mt-3">Trustpilot</p>
                         </div>
                     </Reveal>
-                </div>
-            </section>
-
-            {/* SHOP THE LOOK */}
-            <section className="bg-ma-warm/40 py-24 lg:py-32 border-y border-ma-border">
-                <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-                    <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
-                        <div>
-                            <span className="ma-eyebrow">Shop the Look</span>
-                            <h2 className="font-serif text-[40px] lg:text-[56px] leading-tight mt-3">Complete Your Space</h2>
-                        </div>
-                        <Link to="/collections" className="ma-link" data-testid="view-all-looks">View All Looks →</Link>
-                    </Reveal>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {collections.map((col, idx) => (
-                            <Reveal key={col.id} as="div" delay={idx * 110}>
-                                <Link to={`/collections/${col.id}`} data-testid={`look-${col.id}`} className="group block">
-                                    <div className="aspect-[4/5] overflow-hidden bg-ma-warm">
-                                        <img src={col.image} alt={col.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" />
-                                    </div>
-                                    <div className="pt-5 flex flex-col gap-1">
-                                        <h3 className="font-serif text-[20px] leading-tight">{col.name}</h3>
-                                        <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop The Look →</span>
-                                    </div>
-                                </Link>
-                            </Reveal>
-                        ))}
-                    </div>
                 </div>
             </section>
         </Layout>
