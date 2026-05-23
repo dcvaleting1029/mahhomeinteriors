@@ -4,6 +4,7 @@ import { Minus, Plus, X } from "lucide-react";
 import Layout from "../components/layout/Layout";
 import { useCart } from "../contexts/CartContext";
 import { formatPrice } from "../lib/api";
+import Reveal from "../components/Reveal";
 
 export default function CartPage() {
     const { items, removeItem, updateQuantity, subtotal } = useCart();
@@ -13,8 +14,10 @@ export default function CartPage() {
     return (
         <Layout>
             <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16">
-                <span className="ma-eyebrow">Your Bag</span>
-                <h1 className="font-serif text-[48px] md:text-[64px] leading-tight mt-3 mb-12">Shopping Bag</h1>
+                <Reveal>
+                    <span className="ma-eyebrow">Your Bag</span>
+                    <h1 className="font-serif text-[48px] md:text-[64px] leading-tight mt-3 mb-12">Shopping Bag</h1>
+                </Reveal>
 
                 {items.length === 0 ? (
                     <div className="border border-ma-border p-16 text-center">

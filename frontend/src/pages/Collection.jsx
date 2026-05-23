@@ -30,10 +30,12 @@ export default function Collection() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-white/85 to-white/20 flex items-center">
                     <div className="max-w-[1440px] w-full mx-auto px-6 md:px-12 lg:px-16">
-                        <span className="ma-eyebrow">Collection</span>
-                        <h1 className="font-serif text-[44px] md:text-[68px] lg:text-[84px] leading-[1.02] mt-4 max-w-2xl">{collection.name}</h1>
-                        <p className="text-ma-muted text-[15px] mt-5 max-w-xl">{collection.subtitle}</p>
-                        <a href="#products" className="btn-gold mt-8">Shop Collection →</a>
+                        <Reveal>
+                            <span className="ma-eyebrow">Collection</span>
+                            <h1 className="font-serif text-[44px] md:text-[68px] lg:text-[84px] leading-[1.02] mt-4 max-w-2xl">{collection.name}</h1>
+                            <p className="text-ma-muted text-[15px] mt-5 max-w-xl">{collection.subtitle}</p>
+                            <a href="#products" className="btn-gold mt-8">Shop Collection →</a>
+                        </Reveal>
                     </div>
                 </div>
             </section>
@@ -42,7 +44,11 @@ export default function Collection() {
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
                     <h2 className="font-serif text-[34px] mb-12 max-w-xl leading-tight">The Pieces</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8" data-testid="collection-products">
-                        {products.map((p) => <ProductCard key={p.id} product={p} />)}
+                        {products.map((p, idx) => (
+                            <Reveal key={p.id} as="div" delay={(idx % 4) * 90}>
+                                <ProductCard product={p} />
+                            </Reveal>
+                        ))}
                     </div>
                 </div>
             </section>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { X, Heart, Minus, Plus } from "lucide-react";
-import { Dialog, DialogContent } from "./ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { useCart } from "../contexts/CartContext";
 import { useWishlist } from "../contexts/WishlistContext";
 import { formatPrice } from "../lib/api";
@@ -27,6 +27,8 @@ export default function QuickViewDialog({ product, open, onOpenChange }) {
                 data-testid="quickview-dialog"
                 className="!max-w-[920px] w-[92vw] p-0 bg-white border border-ma-border rounded-none gap-0 overflow-hidden"
             >
+                <DialogTitle className="sr-only">{product.name}</DialogTitle>
+                <DialogDescription className="sr-only">{product.short_description || `Quick view of ${product.name}`}</DialogDescription>
                 <button
                     onClick={() => onOpenChange(false)}
                     aria-label="Close"

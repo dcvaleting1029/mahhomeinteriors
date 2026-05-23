@@ -5,6 +5,7 @@ import Layout from "../components/layout/Layout";
 import { useCart } from "../contexts/CartContext";
 import { useAuth } from "../contexts/AuthContext";
 import api, { formatPrice, formatApiErrorDetail } from "../lib/api";
+import Reveal from "../components/Reveal";
 
 const STEPS = ["Contact", "Delivery", "Payment", "Review"];
 
@@ -109,7 +110,9 @@ export default function Checkout() {
     return (
         <Layout hideAnnouncement>
             <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 py-14">
-                <h1 className="font-serif text-[40px] md:text-[52px] mb-2">Checkout</h1>
+                <Reveal>
+                    <h1 className="font-serif text-[40px] md:text-[52px] mb-2">Checkout</h1>
+                </Reveal>
                 {/* Stepper */}
                 <ol className="flex items-center gap-2 md:gap-6 mb-12" data-testid="checkout-stepper">
                     {STEPS.map((s, i) => (

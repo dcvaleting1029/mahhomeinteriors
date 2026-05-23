@@ -4,6 +4,7 @@ import Layout from "../components/layout/Layout";
 import MaLogo from "../components/MaLogo";
 import { useAuth } from "../contexts/AuthContext";
 import { formatApiErrorDetail } from "../lib/api";
+import Reveal from "../components/Reveal";
 
 export default function Login() {
     const [email, setEmail] = useState("customer@mahomeinteriors.com");
@@ -37,7 +38,7 @@ export default function Login() {
                     <img src="https://images.unsplash.com/photo-1761330439741-3dcf41ee766b?crop=entropy&cs=srgb&fm=jpg&q=85" alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex items-center justify-center px-6 py-16">
-                    <div className="w-full max-w-md">
+                    <Reveal className="w-full max-w-md" duration={900}>
                         <div className="flex justify-center mb-10"><MaLogo size={56} /></div>
                         <span className="ma-eyebrow block text-center">Customer Login</span>
                         <h1 className="font-serif text-[40px] md:text-[48px] leading-tight text-center mt-3 mb-10">Welcome Back</h1>
@@ -69,7 +70,7 @@ export default function Login() {
                             New to MA?{" "}
                             <Link to="/signup" className="text-ma-gold hover:underline" data-testid="link-signup">Create an Account →</Link>
                         </p>
-                    </div>
+                    </Reveal>
                 </div>
             </div>
         </Layout>

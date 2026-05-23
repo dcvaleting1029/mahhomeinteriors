@@ -4,6 +4,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Truck, RotateCcw, ShieldCheck, M
 import Layout from "../components/layout/Layout";
 import ProductCard from "../components/ProductCard";
 import api, { formatPrice } from "../lib/api";
+import Reveal from "../components/Reveal";
 
 // Hero & lifestyle imagery from design guidelines
 const HERO_IMG = "https://images.unsplash.com/photo-1758448755778-90ebf4d0f1e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwzfHxtaW5pbWFsJTIwbHV4dXJ5JTIwbGl2aW5nJTIwcm9vbSUyMGJlaWdlfGVufDB8fHx8MTc3OTQ4NzU2NHww&ixlib=rb-4.1.0&q=85";
@@ -38,7 +39,7 @@ export default function Home() {
             {/* HERO */}
             <section className="relative bg-white">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center min-h-[560px] lg:min-h-[640px] py-16 lg:py-24">
-                    <div className="lg:col-span-5 flex flex-col items-start z-10 max-w-xl">
+                    <Reveal className="lg:col-span-5 flex flex-col items-start z-10 max-w-xl" duration={1000}>
                         <span className="ma-eyebrow mb-6" data-testid="hero-eyebrow">MA, Home Interiors</span>
                         <h1 className="font-serif text-[44px] sm:text-[58px] lg:text-[78px] leading-[1.02] tracking-tight mb-3">
                             Beautiful Spaces.
@@ -52,9 +53,9 @@ export default function Home() {
                         <Link to="/shop" data-testid="hero-cta" className="btn-gold">
                             Shop the Collection <ArrowRight size={14} strokeWidth={2} />
                         </Link>
-                    </div>
+                    </Reveal>
 
-                    <div className="lg:col-span-7 relative h-[380px] sm:h-[460px] lg:h-[600px]">
+                    <Reveal className="lg:col-span-7 relative h-[380px] sm:h-[460px] lg:h-[600px]" delay={150} duration={1100} distance={30}>
                         <div className="absolute inset-0 lg:left-0">
                             <img
                                 src={HERO_IMG}
@@ -62,7 +63,7 @@ export default function Home() {
                                 className="hero-mask-left w-full h-full object-cover"
                             />
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
             </section>
 
@@ -74,8 +75,8 @@ export default function Home() {
                         { Icon: RotateCcw, title: "Easy Returns", sub: "30-day returns" },
                         { Icon: ShieldCheck, title: "Secure Payment", sub: "100% safe & secure" },
                         { Icon: MessageSquare, title: "Customer Support", sub: "We're here to help" },
-                    ].map(({ Icon, title, sub }) => (
-                        <div key={title} className="flex items-center gap-4 py-8 px-4 md:px-8">
+                    ].map(({ Icon, title, sub }, idx) => (
+                        <Reveal key={title} delay={idx * 100} className="flex items-center gap-4 py-8 px-4 md:px-8">
                             <span className="flex items-center justify-center w-11 h-11 border border-ma-gold/40 rounded-full">
                                 <Icon size={18} className="text-ma-gold" strokeWidth={1.4} />
                             </span>
@@ -83,7 +84,7 @@ export default function Home() {
                                 <p className="font-serif text-[18px] leading-tight">{title}</p>
                                 <p className="text-[12px] text-ma-muted mt-1">{sub}</p>
                             </div>
-                        </div>
+                        </Reveal>
                     ))}
                 </div>
             </section>
@@ -91,29 +92,30 @@ export default function Home() {
             {/* SHOP BY CATEGORY */}
             <section className="py-24 lg:py-32">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-                    <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
+                    <Reveal className="flex items-end justify-between mb-14 flex-wrap gap-4">
                         <div>
                             <span className="ma-eyebrow">Shop by Category</span>
                             <h2 className="font-serif text-[40px] lg:text-[56px] leading-tight mt-3">Shop Our Bestsellers</h2>
                         </div>
                         <Link to="/shop" className="ma-link" data-testid="view-all-categories">View All Categories →</Link>
-                    </div>
+                    </Reveal>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 lg:gap-6">
                         {categories.map((c, idx) => (
-                            <Link
-                                key={c.id}
-                                data-testid={`category-${c.id}`}
-                                to={`/shop?category=${encodeURIComponent(c.name)}`}
-                                className="group block"
-                            >
-                                <div className={`overflow-hidden bg-ma-warm ${idx === 0 ? "aspect-[3/4]" : "aspect-[4/5]"}`}>
-                                    <img src={c.image} alt={c.name} className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" loading="lazy" />
-                                </div>
-                                <div className="pt-5 flex flex-col gap-1">
-                                    <h3 className="font-serif text-[19px] leading-tight">{c.name}</h3>
-                                    <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop Now →</span>
-                                </div>
-                            </Link>
+                            <Reveal key={c.id} delay={idx * 90} as="div">
+                                <Link
+                                    data-testid={`category-${c.id}`}
+                                    to={`/shop?category=${encodeURIComponent(c.name)}`}
+                                    className="group block"
+                                >
+                                    <div className={`overflow-hidden bg-ma-warm ${idx === 0 ? "aspect-[3/4]" : "aspect-[4/5]"}`}>
+                                        <img src={c.image} alt={c.name} className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" loading="lazy" />
+                                    </div>
+                                    <div className="pt-5 flex flex-col gap-1">
+                                        <h3 className="font-serif text-[19px] leading-tight">{c.name}</h3>
+                                        <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop Now →</span>
+                                    </div>
+                                </Link>
+                            </Reveal>
                         ))}
                     </div>
                 </div>
@@ -122,7 +124,7 @@ export default function Home() {
             {/* NEW IN CAROUSEL */}
             <section className="bg-ma-warm/40 py-24 lg:py-32 border-y border-ma-border">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-                    <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+                    <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
                         <div>
                             <span className="ma-eyebrow">New In</span>
                             <h2 className="font-serif text-[40px] lg:text-[56px] leading-tight mt-3">Just Arrived</h2>
@@ -138,24 +140,26 @@ export default function Home() {
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <div
-                        ref={scrollerRef}
-                        className="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 -mx-4 px-4"
-                    >
-                        {products.map((p) => (
-                            <div key={p.id} className="snap-start flex-none w-[78%] sm:w-[44%] md:w-[30%] lg:w-[22%]">
-                                <ProductCard product={p} eager />
-                            </div>
-                        ))}
-                    </div>
+                    </Reveal>
+                    <Reveal as="div" delay={120}>
+                        <div
+                            ref={scrollerRef}
+                            className="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 -mx-4 px-4"
+                        >
+                            {products.map((p) => (
+                                <div key={p.id} className="snap-start flex-none w-[78%] sm:w-[44%] md:w-[30%] lg:w-[22%]">
+                                    <ProductCard product={p} eager />
+                                </div>
+                            ))}
+                        </div>
+                    </Reveal>
                 </div>
             </section>
 
             {/* WHY CHOOSE */}
             <section className="py-24 lg:py-32">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                    <div>
+                    <Reveal>
                         <span className="ma-eyebrow">Why Choose Us</span>
                         <h2 className="font-serif text-[40px] lg:text-[56px] leading-tight mt-3 mb-10">
                             Why Choose <span className="italic">MA Home Interiors?</span>
@@ -166,15 +170,15 @@ export default function Home() {
                                 { title: "Premium Quality", sub: "Crafted with the finest materials." },
                                 { title: "Sustainable Choices", sub: "Designed for a better home & planet." },
                             ].map((f, i) => (
-                                <div key={f.title}>
+                                <Reveal key={f.title} delay={150 + i * 100}>
                                     <span className="ma-eyebrow !text-ma-gold/80 text-[10px]">0{i + 1}</span>
                                     <h3 className="font-serif text-[22px] mt-3 mb-2">{f.title}</h3>
                                     <p className="text-ma-muted text-[13px] leading-relaxed">{f.sub}</p>
-                                </div>
+                                </Reveal>
                             ))}
                         </div>
-                    </div>
-                    <div className="relative">
+                    </Reveal>
+                    <Reveal delay={120} className="relative">
                         <div className="aspect-[4/5] overflow-hidden bg-ma-warm">
                             <img src={WHY_IMG} alt="Interior" className="w-full h-full object-cover" loading="lazy" />
                         </div>
@@ -186,31 +190,33 @@ export default function Home() {
                             <p className="text-[12px] text-ma-muted mt-1">4.8 out of 5 — based on 2,357 reviews</p>
                             <p className="ma-eyebrow !text-ma-muted text-[9px] mt-3">Trustpilot</p>
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
             </section>
 
             {/* SHOP THE LOOK */}
             <section className="bg-ma-warm/40 py-24 lg:py-32 border-y border-ma-border">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-                    <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+                    <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
                         <div>
                             <span className="ma-eyebrow">Shop the Look</span>
                             <h2 className="font-serif text-[40px] lg:text-[56px] leading-tight mt-3">Complete Your Space</h2>
                         </div>
                         <Link to="/collections" className="ma-link" data-testid="view-all-looks">View All Looks →</Link>
-                    </div>
+                    </Reveal>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {collections.map((col) => (
-                            <Link key={col.id} to={`/collections/${col.id}`} data-testid={`look-${col.id}`} className="group block">
-                                <div className="aspect-[4/5] overflow-hidden bg-ma-warm">
-                                    <img src={col.image} alt={col.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" />
-                                </div>
-                                <div className="pt-5 flex flex-col gap-1">
-                                    <h3 className="font-serif text-[20px] leading-tight">{col.name}</h3>
-                                    <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop The Look →</span>
-                                </div>
-                            </Link>
+                        {collections.map((col, idx) => (
+                            <Reveal key={col.id} as="div" delay={idx * 110}>
+                                <Link to={`/collections/${col.id}`} data-testid={`look-${col.id}`} className="group block">
+                                    <div className="aspect-[4/5] overflow-hidden bg-ma-warm">
+                                        <img src={col.image} alt={col.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-105" />
+                                    </div>
+                                    <div className="pt-5 flex flex-col gap-1">
+                                        <h3 className="font-serif text-[20px] leading-tight">{col.name}</h3>
+                                        <span className="ma-link !text-[10px] text-ma-muted group-hover:text-ma-gold">Shop The Look →</span>
+                                    </div>
+                                </Link>
+                            </Reveal>
                         ))}
                     </div>
                 </div>

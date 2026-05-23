@@ -4,6 +4,7 @@ import Layout from "../components/layout/Layout";
 import MaLogo from "../components/MaLogo";
 import { useAuth } from "../contexts/AuthContext";
 import { formatApiErrorDetail } from "../lib/api";
+import Reveal from "../components/Reveal";
 
 export default function Signup() {
     const [form, setForm] = useState({
@@ -49,7 +50,7 @@ export default function Signup() {
                     <img src="https://images.unsplash.com/photo-1768144092684-c1a5dd6c7aad?crop=entropy&cs=srgb&fm=jpg&q=85" alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex items-center justify-center px-6 py-16">
-                    <div className="w-full max-w-md">
+                    <Reveal className="w-full max-w-md" duration={900}>
                         <div className="flex justify-center mb-10"><MaLogo size={56} /></div>
                         <span className="ma-eyebrow block text-center">Become a Member</span>
                         <h1 className="font-serif text-[40px] md:text-[48px] leading-tight text-center mt-3 mb-10">Create Your Account</h1>
@@ -82,7 +83,7 @@ export default function Signup() {
                         <p className="text-center text-[13px] text-ma-muted mt-8">
                             Already have an account? <Link to="/login" className="text-ma-gold hover:underline" data-testid="link-login">Log in</Link>
                         </p>
-                    </div>
+                    </Reveal>
                 </div>
             </div>
         </Layout>

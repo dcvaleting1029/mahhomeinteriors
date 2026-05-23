@@ -4,6 +4,7 @@ import { SlidersHorizontal, X } from "lucide-react";
 import Layout from "../components/layout/Layout";
 import ProductCard from "../components/ProductCard";
 import api from "../lib/api";
+import Reveal from "../components/Reveal";
 
 const CATEGORIES = ["All", "Furniture", "Lighting", "Decor & Accessories", "Tableware", "Candles & Fragrance", "Textiles"];
 const COLOURS = ["Bone", "Sand", "Clay", "Oat", "Ivory", "Pebble", "Charcoal", "Amber"];
@@ -106,13 +107,15 @@ export default function Shop() {
         <Layout>
             <section className="border-b border-ma-border">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
-                    <span className="ma-eyebrow">{isNew ? "New In" : category === "All" ? "Shop All" : category}</span>
-                    <h1 className="font-serif text-[48px] md:text-[64px] leading-tight mt-3">
-                        {isNew ? "Just Arrived" : category === "All" ? "Shop All" : category}
-                    </h1>
-                    <p className="text-ma-muted mt-3 max-w-xl text-[14px]">
-                        {search ? `Showing results for “${search}”` : "Curated pieces for timeless interiors."}
-                    </p>
+                    <Reveal>
+                        <span className="ma-eyebrow">{isNew ? "New In" : category === "All" ? "Shop All" : category}</span>
+                        <h1 className="font-serif text-[48px] md:text-[64px] leading-tight mt-3">
+                            {isNew ? "Just Arrived" : category === "All" ? "Shop All" : category}
+                        </h1>
+                        <p className="text-ma-muted mt-3 max-w-xl text-[14px]">
+                            {search ? `Showing results for “${search}”` : "Curated pieces for timeless interiors."}
+                        </p>
+                    </Reveal>
                 </div>
             </section>
 
@@ -158,7 +161,11 @@ export default function Shop() {
                             </div>
                         ) : (
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8" data-testid="product-grid">
-                                {products.map((p) => <ProductCard key={p.id} product={p} />)}
+                                {products.map((p, idx) => (
+                                    <Reveal key={p.id} as="div" delay={(idx % 4) * 80}>
+                                        <ProductCard product={p} />
+                                    </Reveal>
+                                ))}
                             </div>
                         )}
                     </div>

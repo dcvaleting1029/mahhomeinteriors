@@ -12,6 +12,7 @@ import ProductCard from "../components/ProductCard";
 import { useCart } from "../contexts/CartContext";
 import { useWishlist } from "../contexts/WishlistContext";
 import api, { formatPrice } from "../lib/api";
+import Reveal from "../components/Reveal";
 
 export default function ProductDetail() {
     const { slug } = useParams();
@@ -48,7 +49,7 @@ export default function ProductDetail() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
                     {/* Gallery */}
-                    <div>
+                    <Reveal duration={900}>
                         <div className="aspect-[4/5] overflow-hidden bg-ma-warm group" data-testid="product-main-image">
                             <img src={gallery[activeImg]} alt={p.name} className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
                         </div>
@@ -66,10 +67,10 @@ export default function ProductDetail() {
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </Reveal>
 
                     {/* Details */}
-                    <div>
+                    <Reveal delay={120} duration={900}>
                         <span className="ma-eyebrow">{p.category}</span>
                         <h1 className="font-serif text-[40px] md:text-[52px] leading-tight mt-3 mb-4">{p.name}</h1>
                         <div className="flex items-center gap-3 mb-6">
@@ -158,17 +159,23 @@ export default function ProductDetail() {
                                 <AccordionContent className="text-ma-muted text-[14px]">Standard UK delivery is free on orders over £100. Express delivery available at £6.99. 30-day returns on unused items.</AccordionContent>
                             </AccordionItem>
                         </Accordion>
-                    </div>
+                    </Reveal>
                 </div>
             </div>
 
             {data.related && data.related.length > 0 && (
                 <section className="bg-ma-warm/40 border-t border-ma-border py-24 mt-20">
                     <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-                        <span className="ma-eyebrow">You May Also Like</span>
-                        <h3 className="font-serif text-[34px] mt-3 mb-10">Pair It With</h3>
+                        <Reveal>
+                            <span className="ma-eyebrow">You May Also Like</span>
+                            <h3 className="font-serif text-[34px] mt-3 mb-10">Pair It With</h3>
+                        </Reveal>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8" data-testid="related-products">
-                            {data.related.map((rp) => <ProductCard key={rp.id} product={rp} />)}
+                            {data.related.map((rp, idx) => (
+                                <Reveal key={rp.id} as="div" delay={idx * 90}>
+                                    <ProductCard product={rp} />
+                                </Reveal>
+                            ))}
                         </div>
                     </div>
                 </section>
