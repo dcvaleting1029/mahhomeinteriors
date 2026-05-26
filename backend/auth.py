@@ -151,6 +151,13 @@ async def register(payload: RegisterIn, response: Response):
     await db.users.insert_one(user_doc)
     token = create_access_token(user_doc["id"], email, remember=False)
     set_auth_cookie(response, token, remember=False)
+    # Fire-and-forget welcome email (lazy import to avoid circular deps)
+    try:
+        from email_service import send_welcome_email
+        import asyncio as _asyncio
+        _asyncio.create_task(send_welcome_email(user_doc))
+    except Exception:
+        pass
     return _user_to_out(user_doc)
 
 

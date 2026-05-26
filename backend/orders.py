@@ -119,3 +119,38 @@ async def remove_from_wishlist(product_id: str, user: dict = Depends(get_current
     from server import db
     await db.wishlists.delete_one({"user_id": user["id"], "product_id": product_id})
     return {"ok": True}
+
+
+# ---------- ADMIN: SHIP ORDER ----------
+class ShipOrderIn(BaseModel):
+    tracking_number: Optional[str] = None
+    carrier: Optional[str] = None
+
+
+@router.post("/admin/orders/{order_id}/ship")
+async def admin_ship_order(order_id: str, payload: ShipOrderIn, user: dict = Depends(get_current_user)):
+    """Mark an order as shipped (admin only) and email the customer."""
+    from server import db
+    if user.get("role") != "admin":
+        raise HTTPException(403, "Admin access required.")
+    order = await db.orders.find_one({"id": order_id}, {"_id": 0})
+    if not order:
+        raise HTTPException(404, "Order not found.")
+    updates = {
+        "status": "shipped",
+        "shipped_at": datetime.now(timezone.utc).isoformat(),
+    }
+    if payload.tracking_number:
+        updates["tracking_number"] = payload.tracking_number
+    if payload.carrier:
+        updates["carrier"] = payload.carrier
+    await db.orders.update_one({"id": order_id}, {"$set": updates})
+    order.update(updates)
+    # Fire-and-forget shipping email
+    try:
+        from email_service import send_shipping_email
+        import asyncio as _asyncio
+        _asyncio.create_task(send_shipping_email(order, payload.tracking_number, payload.carrier))
+    except Exception:
+        pass
+    return {"ok": True, "order": order}

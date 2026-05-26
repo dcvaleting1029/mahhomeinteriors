@@ -6,8 +6,10 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / ".env")
 
 import os
+import asyncio
 import logging
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone, timedelta
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -18,12 +20,49 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ["DB_NAME"]]
 
 
+# Abandoned-bag config
+ABANDONED_AFTER_MINUTES = int(os.environ.get("ABANDONED_AFTER_MINUTES", "60"))
+ABANDONED_SCAN_INTERVAL_SECONDS = int(os.environ.get("ABANDONED_SCAN_INTERVAL_SECONDS", "600"))  # 10 min
+
+
+async def _abandoned_bag_loop():
+    """Periodically scan for unpaid orders older than threshold and email customers."""
+    from email_service import send_abandoned_bag_email
+    log = logging.getLogger("ma-abandoned")
+    while True:
+        try:
+            await asyncio.sleep(ABANDONED_SCAN_INTERVAL_SECONDS)
+            cutoff = (datetime.now(timezone.utc) - timedelta(minutes=ABANDONED_AFTER_MINUTES)).isoformat()
+            cursor = db.orders.find({
+                "status": "pending_payment",
+                "created_at": {"$lt": cutoff},
+                "abandoned_email_sent": {"$ne": True},
+                "user_email": {"$exists": True, "$ne": None},
+            }, {"_id": 0})
+            count = 0
+            async for order in cursor:
+                # Don't re-engage orders that completed via a later webhook
+                if order.get("payment_status") == "paid":
+                    continue
+                await send_abandoned_bag_email(order)
+                await db.orders.update_one(
+                    {"id": order["id"]},
+                    {"$set": {"abandoned_email_sent": True, "abandoned_emailed_at": datetime.now(timezone.utc).isoformat()}},
+                )
+                count += 1
+            if count:
+                log.info("Abandoned-bag pass: emailed %d orders", count)
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            log.warning("Abandoned-bag loop error: %s", e)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     from products import seed_catalog
     from auth import hash_password, verify_password
-    from datetime import datetime, timezone
     import uuid
 
     await db.users.create_index("email", unique=True)
@@ -60,7 +99,16 @@ async def lifespan(app: FastAPI):
             "marketing_opt_in": True,
         })
 
+    # Background tasks
+    abandoned_task = asyncio.create_task(_abandoned_bag_loop())
+
     yield
+
+    abandoned_task.cancel()
+    try:
+        await abandoned_task
+    except asyncio.CancelledError:
+        pass
     client.close()
 
 
