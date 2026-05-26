@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutGrid, Package, Heart, MapPin, User as UserIcon, LogOut, Truck } from "lucide-react";
+import { LayoutGrid, Package, Heart, MapPin, User as UserIcon, LogOut, Truck, Boxes, Tag } from "lucide-react";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -13,7 +13,9 @@ const ITEMS = [
 ];
 
 const ADMIN_ITEMS = [
-    { to: "/account/admin/orders", label: "All Orders (Admin)", Icon: Truck, testId: "nav-admin-orders" },
+    { to: "/account/admin/orders", label: "All Orders", Icon: Truck, testId: "nav-admin-orders" },
+    { to: "/account/admin/products", label: "Products", Icon: Boxes, testId: "nav-admin-products" },
+    { to: "/account/admin/coupons", label: "Discount Codes", Icon: Tag, testId: "nav-admin-coupons" },
 ];
 
 export default function AccountLayout() {

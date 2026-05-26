@@ -27,6 +27,8 @@ import Wishlist from "./pages/account/Wishlist";
 import Addresses from "./pages/account/Addresses";
 import AccountDetails from "./pages/account/AccountDetails";
 import AdminOrders from "./pages/account/AdminOrders";
+import AdminProducts from "./pages/account/AdminProducts";
+import AdminCoupons from "./pages/account/AdminCoupons";
 
 function App() {
     return (
@@ -55,6 +57,8 @@ function App() {
                                 <Route path="addresses" element={<Addresses />} />
                                 <Route path="details" element={<AccountDetails />} />
                                 <Route path="admin/orders" element={<AdminOrders />} />
+                                <Route path="admin/products" element={<AdminProducts />} />
+                                <Route path="admin/coupons" element={<AdminCoupons />} />
                             </Route>
 
                             <Route path="*" element={<Navigate to="/" replace />} />

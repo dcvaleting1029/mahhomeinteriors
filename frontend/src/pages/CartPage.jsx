@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { Minus, Plus, X } from "lucide-react";
 import Layout from "../components/layout/Layout";
 import { useCart } from "../contexts/CartContext";
+import { useAuth } from "../contexts/AuthContext";
 import api, { formatPrice, formatApiErrorDetail } from "../lib/api";
 import Reveal from "../components/Reveal";
 
 export default function CartPage() {
     const { items, removeItem, updateQuantity, subtotal, coupon, setCoupon, clearCoupon, discount, freeShipping } = useCart();
+    const { user } = useAuth();
     const baseShipping = subtotal >= 100 || subtotal === 0 ? 0 : 4.99;
     const shipping = freeShipping ? 0 : baseShipping;
     const total = Math.max(0, subtotal - discount + shipping);
@@ -21,7 +23,9 @@ export default function CartPage() {
         setCouponBusy(true);
         setCouponErr("");
         try {
-            const { data } = await api.post("/coupons/validate", { code: codeInput, subtotal });
+            // Use authenticated endpoint when logged in so first-order-only codes work
+            const endpoint = user ? "/coupons/validate/auth" : "/coupons/validate";
+            const { data } = await api.post(endpoint, { code: codeInput, subtotal });
             setCoupon({
                 code: data.code,
                 description: data.description,

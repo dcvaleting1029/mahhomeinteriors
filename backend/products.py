@@ -1,6 +1,11 @@
-"""Product catalog: seeded products + read endpoints."""
-from fastapi import APIRouter, HTTPException, Query
-from typing import Optional
+"""Product catalog: seeded products + read endpoints + admin CRUD."""
+from fastapi import APIRouter, HTTPException, Query, Depends
+from pydantic import BaseModel, Field
+from typing import Optional, List
+import uuid
+import re
+
+from auth import get_current_user
 
 router = APIRouter(prefix="/api/products", tags=["products"])
 
@@ -363,14 +368,13 @@ COLLECTIONS = [
 
 
 async def seed_catalog(db):
-    """Idempotent seed of products & collections. Replaces existing seed data."""
-    # Clear old seed data so renaming/removal of products takes effect
-    await db.products.delete_many({})
-    await db.collections.delete_many({})
-    for p in SEED_PRODUCTS:
-        await db.products.insert_one({**p})
-    for c in COLLECTIONS:
-        await db.collections.insert_one({**c})
+    """Initial seed only — runs when products collection is empty so admin CRUD changes persist."""
+    if await db.products.count_documents({}) == 0:
+        for p in SEED_PRODUCTS:
+            await db.products.insert_one({**p})
+    if await db.collections.count_documents({}) == 0:
+        for c in COLLECTIONS:
+            await db.collections.insert_one({**c})
     await db.products.create_index("id", unique=True)
     await db.products.create_index("slug")
     await db.products.create_index("category")
@@ -453,3 +457,87 @@ async def get_product(slug: str):
         {"category": product["category"], "id": {"$ne": product["id"]}}, {"_id": 0}
     ).to_list(4)
     return {"product": product, "related": related}
+
+
+# ---------- ADMIN PRODUCT CRUD ----------
+_SLUG_RE = re.compile(r"[^a-z0-9]+")
+
+
+def _slugify(name: str) -> str:
+    s = _SLUG_RE.sub("-", (name or "").strip().lower()).strip("-")
+    return s or str(uuid.uuid4())[:8]
+
+
+def _require_admin(user: dict) -> None:
+    if user.get("role") != "admin":
+        raise HTTPException(403, "Admin access required.")
+
+
+class ProductIn(BaseModel):
+    name: str = Field(min_length=1, max_length=200)
+    category: str = Field(min_length=1)
+    price: float = Field(ge=0)
+    original_price: Optional[float] = Field(default=None, ge=0)
+    image: str = ""
+    short_description: str = ""
+    description: str = ""
+    materials: str = ""
+    dimensions: str = ""
+    care: str = ""
+    colours: List[str] = []
+    tags: List[str] = []
+    is_new: bool = False
+    on_sale: bool = False
+    in_stock: bool = True
+
+
+@router.get("/admin/all")
+async def admin_list_products(user: dict = Depends(get_current_user)):
+    _require_admin(user)
+    from server import db
+    items = await db.products.find({}, {"_id": 0}).to_list(500)
+    return {"items": items}
+
+
+@router.post("/admin")
+async def admin_create_product(payload: ProductIn, user: dict = Depends(get_current_user)):
+    _require_admin(user)
+    from server import db
+    base_slug = _slugify(payload.name)
+    slug = base_slug
+    i = 2
+    while await db.products.find_one({"slug": slug}):
+        slug = f"{base_slug}-{i}"
+        i += 1
+    doc = payload.model_dump()
+    doc["id"] = slug
+    doc["slug"] = slug
+    doc["currency"] = "GBP"
+    doc["gallery"] = [doc["image"]] if doc.get("image") else []
+    await db.products.insert_one(doc)
+    doc.pop("_id", None)
+    return doc
+
+
+@router.patch("/admin/{product_id}")
+async def admin_update_product(product_id: str, payload: ProductIn, user: dict = Depends(get_current_user)):
+    _require_admin(user)
+    from server import db
+    existing = await db.products.find_one({"id": product_id})
+    if not existing:
+        raise HTTPException(404, "Product not found.")
+    updates = payload.model_dump()
+    updates["gallery"] = [updates["image"]] if updates.get("image") else existing.get("gallery", [])
+    await db.products.update_one({"id": product_id}, {"$set": updates})
+    doc = await db.products.find_one({"id": product_id}, {"_id": 0})
+    return doc
+
+
+@router.delete("/admin/{product_id}")
+async def admin_delete_product(product_id: str, user: dict = Depends(get_current_user)):
+    _require_admin(user)
+    from server import db
+    res = await db.products.delete_one({"id": product_id})
+    if res.deleted_count == 0:
+        raise HTTPException(404, "Product not found.")
+    return {"ok": True}

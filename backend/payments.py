@@ -14,7 +14,7 @@ from emergentintegrations.payments.stripe.checkout import (
 
 from auth import get_current_user
 from email_service import send_order_confirmation
-from coupons import lookup_and_apply as apply_coupon
+from coupons import lookup_and_apply as apply_coupon, increment_usage as coupon_increment_usage
 
 router = APIRouter(prefix="/api", tags=["payments"])
 
@@ -75,8 +75,19 @@ async def create_checkout(payload: CheckoutIn, request: Request):
         })
     subtotal = round(subtotal, 2)
 
+    # Auth (optional — checkout works for guests). Resolved early so coupons can enforce first-order.
+    user_email = payload.contact_email
+    user_id = None
+    try:
+        user = await get_current_user(request)
+        user_id = user["id"]
+        if not user_email:
+            user_email = user["email"]
+    except HTTPException:
+        pass
+
     # Coupon — server-side validation, do not trust frontend amounts
-    coupon_info = await apply_coupon(db, payload.coupon_code, subtotal)
+    coupon_info = await apply_coupon(db, payload.coupon_code, subtotal, user_id)
     discount_amount = float(coupon_info["discount_amount"]) if coupon_info else 0.0
     free_shipping = bool(coupon_info["free_shipping"]) if coupon_info else False
 
@@ -95,17 +106,6 @@ async def create_checkout(payload: CheckoutIn, request: Request):
     # VAT included in price (UK convention) — we don't add VAT separately
     tax = 0.0
     total = round(max(0.0, subtotal - discount_amount + shipping_cost + tax), 2)
-
-    # Auth (optional — checkout works for guests)
-    user_email = payload.contact_email
-    user_id = None
-    try:
-        user = await get_current_user(request)
-        user_id = user["id"]
-        if not user_email:
-            user_email = user["email"]
-    except HTTPException:
-        pass
 
     if not user_email:
         raise HTTPException(400, "Email is required for checkout.")
@@ -244,6 +244,7 @@ async def checkout_status(session_id: str, request: Request):
             if res.modified_count > 0:
                 order_doc = await db.orders.find_one({"session_id": session_id}, {"_id": 0})
                 if order_doc and not order_doc.get("confirmation_sent"):
+                    await coupon_increment_usage(db, order_doc.get("coupon_code"))
                     await send_order_confirmation(order_doc, order_doc.get("user_email"))
                     await db.orders.update_one({"session_id": session_id}, {"$set": {"confirmation_sent": True}})
 
@@ -287,6 +288,7 @@ async def stripe_webhook(request: Request):
         if res.modified_count > 0:
             order_doc = await db.orders.find_one({"session_id": session_id}, {"_id": 0})
             if order_doc and not order_doc.get("confirmation_sent"):
+                await coupon_increment_usage(db, order_doc.get("coupon_code"))
                 await send_order_confirmation(order_doc, order_doc.get("user_email"))
                 await db.orders.update_one({"session_id": session_id}, {"$set": {"confirmation_sent": True}})
     return {"received": True}

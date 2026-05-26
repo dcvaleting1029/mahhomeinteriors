@@ -35,20 +35,22 @@ export default function About() {
             <section className="py-24 lg:py-32">
                 <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                     <Reveal>
-                        <span className="ma-eyebrow">Founded in London</span>
+                        <span className="ma-eyebrow" data-testid="about-founded-eyebrow">Founded in Glasgow</span>
                         <h2 className="font-serif text-[40px] lg:text-[52px] leading-[1.05] mt-3 mb-6">
-                            Editorial spaces.<br />
-                            <span className="italic text-ma-gold">Lived-in luxury.</span>
+                            How We <span className="italic text-ma-gold">Started.</span>
                         </h2>
                         <div className="text-ma-muted text-[14.5px] leading-[1.85] space-y-5 max-w-lg">
                             <p>
-                                MA Home Interiors was founded on a quiet conviction — that the best homes aren't decorated, they're collected. Piece by piece. Year by year. With intention.
+                                Founded by a father and son team, our journey began over 10 years ago with a simple goal — delivering great products and honest service through online marketplaces like eBay and Amazon. What started as a small reselling business quickly grew through dedication, experience, and a genuine passion for finding quality household products customers could trust.
                             </p>
                             <p>
-                                Our studio works with independent makers across Europe, India and the UK, sourcing furniture, lighting and tableware that pair material honesty with the kind of detail you only notice on the second look.
+                                After a decade of building relationships with suppliers and understanding what people truly value in their homes, we decided it was time to create something of our own — a store focused on carefully selected, high-quality household essentials crafted with care and built to last.
                             </p>
                             <p>
-                                Every piece in our collection earns its place. We don't follow seasons — we follow craft.
+                                Based in Glasgow, we proudly source and dispatch our products locally, supporting craftsmanship, reliability, and the personal touch that large retailers often miss. Every item in our collection is chosen with the same standards we would expect for our own homes: practical, dependable, and made with quality in mind.
+                            </p>
+                            <p>
+                                We believe shopping should feel personal, trustworthy, and straightforward. From our home in Glasgow to yours, thank you for supporting our family-built business and being part of our next chapter.
                             </p>
                         </div>
                     </Reveal>
@@ -65,13 +67,16 @@ export default function About() {
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
                     <Reveal className="text-center max-w-2xl mx-auto mb-16">
                         <span className="ma-eyebrow">What We Stand For</span>
-                        <h2 className="font-serif text-[40px] lg:text-[52px] leading-tight mt-3">Three quiet principles.</h2>
+                        <h2 className="font-serif text-[40px] lg:text-[52px] leading-tight mt-3">A decade of trust, distilled.</h2>
+                        <p className="text-ma-muted text-[14.5px] leading-[1.85] mt-5">
+                            Ten years of serving customers through online marketplaces taught us what really matters at home. These are the three quiet principles our family business is built on.
+                        </p>
                     </Reveal>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
                         {[
-                            { Icon: Hand, eyebrow: "01 · Craft", title: "Made by hand", body: "We work directly with small studios and family-run workshops. Each piece carries the quiet imperfections that only handwork can give." },
-                            { Icon: Award, eyebrow: "02 · Quality", title: "Built to last", body: "Solid stone, hardwood, mouth-blown glass, heavyweight linen — materials that age beautifully and stay with you for decades." },
-                            { Icon: Leaf, eyebrow: "03 · Conscience", title: "Sustainably sourced", body: "Natural materials, low-waste packaging, fair payment for the makers we work with. Quietly responsible, transparently so." },
+                            { Icon: Hand, eyebrow: "01 · Honest Service", title: "Personal by nature", body: "We are still the small father-and-son team that started this. Every order is packed, dispatched and stood behind by people who genuinely care about how it arrives at your door." },
+                            { Icon: Award, eyebrow: "02 · Quality First", title: "Built to last", body: "A decade of working with suppliers means we know what holds up — and what doesn't. We only stock household essentials we'd happily live with in our own homes." },
+                            { Icon: Leaf, eyebrow: "03 · Glasgow Local", title: "Sourced & dispatched here", body: "Our products are selected, stored and shipped from Glasgow. Supporting local logistics, reliable delivery, and the personal touch that larger retailers can't quite replicate." },
                         ].map(({ Icon, eyebrow, title, body }, i) => (
                             <Reveal key={title} delay={i * 120}>
                                 <span className="ma-eyebrow !text-ma-gold/90 text-[10px]">{eyebrow}</span>
@@ -97,18 +102,21 @@ export default function About() {
                     <Reveal className="order-1 lg:order-2" delay={100}>
                         <span className="ma-eyebrow">The Makers</span>
                         <h2 className="font-serif text-[40px] lg:text-[52px] leading-[1.05] mt-3 mb-6">
-                            People before products.
+                            A father, a son, <span className="italic text-ma-gold">and ten years in.</span>
                         </h2>
                         <div className="text-ma-muted text-[14.5px] leading-[1.85] space-y-5 max-w-lg">
                             <p>
-                                The studios we work with aren't faceless suppliers — they're potters, weavers, glassblowers, joiners. We visit, we listen, and we commission pieces that play to what each maker does best.
+                                We're not a faceless retailer. We're a father and son who started out reselling on eBay and Amazon, learning every shipping label, every customer message, every honest piece of feedback the hard way — and the right way.
                             </p>
                             <p>
-                                Some of our makers have been in their craft for three generations. Others started yesterday. What they share is a refusal to compromise on the things you'll only notice when you hold the piece in your hands.
+                                Over the last decade we've built quiet, dependable relationships with the suppliers behind our shelves. We visit, we test, we negotiate, and we only bring through the household pieces we'd be proud to put in our own kitchens, living rooms and dining tables.
+                            </p>
+                            <p>
+                                Everything you order from us still leaves Glasgow with the same care it did on day one. This is a family-built business, and you're now part of its next chapter.
                             </p>
                         </div>
                         <div className="grid grid-cols-3 gap-6 mt-10 max-w-md">
-                            {[{n: "20+", l: "Independent makers"},{n: "9", l: "Countries"},{n: "1", l: "Quiet standard"}].map((s) => (
+                            {[{n: "10+", l: "Years of trade"},{n: "2", l: "Generations"},{n: "1", l: "Glasgow home"}].map((s) => (
                                 <div key={s.l}>
                                     <p className="font-serif text-[34px] text-ma-text leading-none">{s.n}</p>
                                     <p className="ma-eyebrow !text-ma-muted text-[9px] mt-2">{s.l}</p>
