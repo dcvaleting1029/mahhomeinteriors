@@ -20,7 +20,7 @@ export default function About() {
                     <div className="max-w-[1440px] w-full mx-auto px-6 md:px-12 lg:px-16">
                         <Reveal duration={1000}>
                             <span className="ma-eyebrow" data-testid="about-eyebrow">Our Story</span>
-                            <h1 className="font-serif text-[48px] sm:text-[64px] lg:text-[88px] leading-[1.02] tracking-tight mt-4 max-w-3xl">
+                            <h1 className="font-serif text-[34px] sm:text-[56px] lg:text-[88px] leading-[1.05] tracking-tight mt-4 max-w-3xl">
                                 Considered design. <span className="italic">Made to live with.</span>
                             </h1>
                             <p className="text-ma-muted text-[15px] mt-6 max-w-xl leading-relaxed">
@@ -36,7 +36,7 @@ export default function About() {
                 <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                     <Reveal>
                         <span className="ma-eyebrow" data-testid="about-founded-eyebrow">Founded in Glasgow</span>
-                        <h2 className="font-serif text-[40px] lg:text-[52px] leading-[1.05] mt-3 mb-6">
+                        <h2 className="font-serif text-[28px] sm:text-[40px] lg:text-[52px] leading-[1.1] mt-3 mb-6">
                             How We <span className="italic text-ma-gold">Started.</span>
                         </h2>
                         <div className="text-ma-muted text-[14.5px] leading-[1.85] space-y-5 max-w-lg">
@@ -67,7 +67,7 @@ export default function About() {
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
                     <Reveal className="text-center max-w-2xl mx-auto mb-16">
                         <span className="ma-eyebrow">What We Stand For</span>
-                        <h2 className="font-serif text-[40px] lg:text-[52px] leading-tight mt-3">A decade of trust, distilled.</h2>
+                        <h2 className="font-serif text-[28px] sm:text-[40px] lg:text-[52px] leading-tight mt-3">A decade of trust, distilled.</h2>
                         <p className="text-ma-muted text-[14.5px] leading-[1.85] mt-5">
                             Ten years of serving customers through online marketplaces taught us what really matters at home. These are the three quiet principles our family business is built on.
                         </p>
@@ -101,7 +101,7 @@ export default function About() {
                     </Reveal>
                     <Reveal className="order-1 lg:order-2" delay={100}>
                         <span className="ma-eyebrow">The Makers</span>
-                        <h2 className="font-serif text-[40px] lg:text-[52px] leading-[1.05] mt-3 mb-6">
+                        <h2 className="font-serif text-[28px] sm:text-[40px] lg:text-[52px] leading-[1.1] mt-3 mb-6">
                             A father, a son, <span className="italic text-ma-gold">and ten years in.</span>
                         </h2>
                         <div className="text-ma-muted text-[14.5px] leading-[1.85] space-y-5 max-w-lg">
@@ -132,7 +132,7 @@ export default function About() {
                 <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 py-20 lg:py-28 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     <Reveal>
                         <span className="ma-eyebrow !text-ma-gold">Stay in Touch</span>
-                        <h2 className="font-serif text-[36px] lg:text-[44px] leading-tight mt-3 text-white">
+                        <h2 className="font-serif text-[26px] sm:text-[36px] lg:text-[44px] leading-tight mt-3 text-white">
                             Quiet inspiration. <span className="italic text-ma-gold">Considered pieces.</span>
                         </h2>
                         <p className="text-white/70 mt-4 max-w-md text-[14px] leading-relaxed">
