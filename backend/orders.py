@@ -154,3 +154,13 @@ async def admin_ship_order(order_id: str, payload: ShipOrderIn, user: dict = Dep
     except Exception:
         pass
     return {"ok": True, "order": order}
+
+
+@router.get("/admin/orders")
+async def admin_list_orders(user: dict = Depends(get_current_user)):
+    """List all orders (admin only)."""
+    from server import db
+    if user.get("role") != "admin":
+        raise HTTPException(403, "Admin access required.")
+    items = await db.orders.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
+    return {"items": items}

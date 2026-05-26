@@ -10,7 +10,7 @@ import Reveal from "../components/Reveal";
 const STEPS = ["Contact", "Delivery", "Payment", "Review"];
 
 export default function Checkout() {
-    const { items, subtotal, clear } = useCart();
+    const { items, subtotal, clear, coupon, discount, freeShipping } = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [step, setStep] = useState(0);
@@ -47,8 +47,9 @@ export default function Checkout() {
         }
     }, [items]);
 
-    const shipping = form.shipping_method === "express" ? 6.99 : subtotal >= 100 ? 0 : 4.99;
-    const total = subtotal + shipping;
+    const baseShipping = form.shipping_method === "express" ? 6.99 : subtotal >= 100 ? 0 : 4.99;
+    const shipping = freeShipping ? 0 : baseShipping;
+    const total = Math.max(0, subtotal - discount + shipping);
 
     const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -76,6 +77,7 @@ export default function Checkout() {
                 shipping_method: form.shipping_method,
                 origin_url: window.location.origin,
                 contact_email: form.email,
+                coupon_code: coupon?.code || null,
                 address: {
                     first_name: form.first_name,
                     last_name: form.last_name,
@@ -252,6 +254,12 @@ export default function Checkout() {
                         </div>
                         <div className="ma-divider my-5" />
                         <Row label="Subtotal" value={formatPrice(subtotal)} />
+                        {coupon && discount > 0 && (
+                            <div className="flex items-center justify-between py-1 text-ma-gold" data-testid="checkout-discount">
+                                <span className="text-sm">{coupon.code}</span>
+                                <span className="text-sm">−{formatPrice(discount)}</span>
+                            </div>
+                        )}
                         <Row label="Shipping" value={shipping === 0 ? "Free" : formatPrice(shipping)} />
                         <Row label="Tax" value="Included" />
                         <div className="ma-divider my-3" />

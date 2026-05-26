@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 
 const CartContext = createContext(null);
 const STORAGE_KEY = "ma_cart_v1";
+const COUPON_KEY = "ma_coupon_v1";
 
 function readCart() {
     try {
@@ -11,14 +12,27 @@ function readCart() {
         return [];
     }
 }
+function readCoupon() {
+    try {
+        const raw = localStorage.getItem(COUPON_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch {
+        return null;
+    }
+}
 
 export function CartProvider({ children }) {
     const [items, setItems] = useState(readCart);
+    const [coupon, setCouponState] = useState(readCoupon);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     }, [items]);
+    useEffect(() => {
+        if (coupon) localStorage.setItem(COUPON_KEY, JSON.stringify(coupon));
+        else localStorage.removeItem(COUPON_KEY);
+    }, [coupon]);
 
     const addItem = useCallback((product, quantity = 1, options = {}) => {
         setItems((prev) => {
@@ -56,16 +70,25 @@ export function CartProvider({ children }) {
         );
     }, []);
 
-    const clear = useCallback(() => setItems([]), []);
+    const clear = useCallback(() => { setItems([]); setCouponState(null); }, []);
+    const setCoupon = useCallback((c) => setCouponState(c), []);
+    const clearCoupon = useCallback(() => setCouponState(null), []);
 
-    const { subtotal, count } = useMemo(() => {
+    const { subtotal, count, discount, freeShipping } = useMemo(() => {
         const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
         const count = items.reduce((s, i) => s + i.quantity, 0);
-        return { subtotal, count };
-    }, [items]);
+        let discount = 0;
+        let freeShipping = false;
+        if (coupon && subtotal >= (coupon.min_subtotal || 0)) {
+            if (coupon.discount_type === "percent") discount = Math.round(subtotal * (coupon.discount_value / 100) * 100) / 100;
+            else if (coupon.discount_type === "fixed") discount = Math.min(subtotal, coupon.discount_value);
+            else if (coupon.discount_type === "free_shipping") freeShipping = true;
+        }
+        return { subtotal, count, discount, freeShipping };
+    }, [items, coupon]);
 
     return (
-        <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clear, subtotal, count, open, setOpen }}>
+        <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clear, subtotal, count, open, setOpen, coupon, setCoupon, clearCoupon, discount, freeShipping }}>
             {children}
         </CartContext.Provider>
     );

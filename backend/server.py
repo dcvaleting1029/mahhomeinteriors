@@ -62,11 +62,13 @@ async def _abandoned_bag_loop():
 async def lifespan(app: FastAPI):
     # Startup
     from products import seed_catalog
+    from coupons import seed_coupons
     from auth import hash_password, verify_password
     import uuid
 
     await db.users.create_index("email", unique=True)
     await seed_catalog(db)
+    await seed_coupons(db)
 
     # Seed admin + a test customer
     admin_email = os.environ.get("ADMIN_EMAIL", "admin@mahomeinteriors.com")
@@ -119,11 +121,13 @@ from auth import router as auth_router
 from products import router as products_router
 from orders import router as orders_router
 from payments import router as payments_router
+from coupons import router as coupons_router
 
 app.include_router(auth_router)
 app.include_router(products_router)
 app.include_router(orders_router)
 app.include_router(payments_router)
+app.include_router(coupons_router)
 
 
 @app.get("/api/")

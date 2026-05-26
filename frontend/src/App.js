@@ -26,6 +26,7 @@ import OrderDetail from "./pages/account/OrderDetail";
 import Wishlist from "./pages/account/Wishlist";
 import Addresses from "./pages/account/Addresses";
 import AccountDetails from "./pages/account/AccountDetails";
+import AdminOrders from "./pages/account/AdminOrders";
 
 function App() {
     return (
@@ -53,6 +54,7 @@ function App() {
                                 <Route path="wishlist" element={<Wishlist />} />
                                 <Route path="addresses" element={<Addresses />} />
                                 <Route path="details" element={<AccountDetails />} />
+                                <Route path="admin/orders" element={<AdminOrders />} />
                             </Route>
 
                             <Route path="*" element={<Navigate to="/" replace />} />

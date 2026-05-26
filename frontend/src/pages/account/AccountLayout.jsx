@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutGrid, Package, Heart, MapPin, User as UserIcon, LogOut } from "lucide-react";
+import { LayoutGrid, Package, Heart, MapPin, User as UserIcon, LogOut, Truck } from "lucide-react";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -10,6 +10,10 @@ const ITEMS = [
     { to: "/account/wishlist", label: "Wishlist", Icon: Heart, testId: "nav-wishlist" },
     { to: "/account/addresses", label: "Addresses", Icon: MapPin, testId: "nav-addresses" },
     { to: "/account/details", label: "Account Details", Icon: UserIcon, testId: "nav-details" },
+];
+
+const ADMIN_ITEMS = [
+    { to: "/account/admin/orders", label: "All Orders (Admin)", Icon: Truck, testId: "nav-admin-orders" },
 ];
 
 export default function AccountLayout() {
@@ -56,6 +60,25 @@ export default function AccountLayout() {
                                     </NavLink>
                                 </li>
                             ))}
+                            {user.role === "admin" && (
+                                <>
+                                    <li className="ma-eyebrow !text-ma-muted text-[9px] px-4 pt-5 pb-2">Admin</li>
+                                    {ADMIN_ITEMS.map(({ to, label, Icon, testId }) => (
+                                        <li key={to}>
+                                            <NavLink
+                                                to={to}
+                                                data-testid={testId}
+                                                className={({ isActive }) =>
+                                                    `flex items-center gap-3 px-4 py-3 text-[13px] border-l-2 transition-colors ${isActive ? "border-ma-gold bg-ma-warm/50 text-ma-text" : "border-transparent text-ma-muted hover:text-ma-text"}`
+                                                }
+                                            >
+                                                <Icon size={15} strokeWidth={1.5} />
+                                                <span>{label}</span>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </>
+                            )}
                             <li>
                                 <button
                                     data-testid="nav-logout"
