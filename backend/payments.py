@@ -13,6 +13,7 @@ from emergentintegrations.payments.stripe.checkout import (
 )
 
 from auth import get_current_user
+from email_service import send_order_confirmation
 
 router = APIRouter(prefix="/api", tags=["payments"])
 
@@ -217,7 +218,7 @@ async def checkout_status(session_id: str, request: Request):
         )
         # Finalise order on first successful paid event
         if status.payment_status == "paid":
-            await db.orders.update_one(
+            res = await db.orders.update_one(
                 {"session_id": session_id, "status": "pending_payment"},
                 {"$set": {
                     "status": "confirmed",
@@ -225,6 +226,12 @@ async def checkout_status(session_id: str, request: Request):
                     "paid_at": datetime.now(timezone.utc).isoformat(),
                 }},
             )
+            # Send confirmation email exactly once
+            if res.modified_count > 0:
+                order_doc = await db.orders.find_one({"session_id": session_id}, {"_id": 0})
+                if order_doc and not order_doc.get("confirmation_sent"):
+                    await send_order_confirmation(order_doc, order_doc.get("user_email"))
+                    await db.orders.update_one({"session_id": session_id}, {"$set": {"confirmation_sent": True}})
 
     order = await db.orders.find_one({"session_id": session_id}, {"_id": 0})
     return {
@@ -250,7 +257,7 @@ async def stripe_webhook(request: Request):
 
     session_id = event.session_id
     if event.payment_status == "paid" and session_id:
-        await db.orders.update_one(
+        res = await db.orders.update_one(
             {"session_id": session_id, "status": "pending_payment"},
             {"$set": {
                 "status": "confirmed",
@@ -262,4 +269,10 @@ async def stripe_webhook(request: Request):
             {"session_id": session_id},
             {"$set": {"payment_status": event.payment_status, "status": "completed"}},
         )
+        # Send confirmation email exactly once (webhook is the canonical source)
+        if res.modified_count > 0:
+            order_doc = await db.orders.find_one({"session_id": session_id}, {"_id": 0})
+            if order_doc and not order_doc.get("confirmation_sent"):
+                await send_order_confirmation(order_doc, order_doc.get("user_email"))
+                await db.orders.update_one({"session_id": session_id}, {"$set": {"confirmation_sent": True}})
     return {"received": True}
