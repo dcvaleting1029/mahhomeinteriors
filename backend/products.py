@@ -1525,6 +1525,70 @@ SEED_PRODUCTS = [
 ]
 
 
+# Curated edit — product IDs that belong in the Summer Edit
+SUMMER_IDS = {
+    # Kitchen & Dining (light, airy, garden-table friendly)
+    "avie-16pc-marble-dinner-set",
+    "avie-16pc-white-embossed-dinner-set",
+    "elmira-16pc-white-porcelain-coupe",
+    "avie-12pc-windmill-dinner-set",
+    "avie-spoke-12pc-dinner-set",
+    "avie-16pc-ribbed-dinner-set",
+    "elmira-12pc-pink-dinner-set",
+    "elmira-tapered-white-mug",
+    "italia-antipasti-plates-set-of-4",
+    "galene-fluted-grey-glass-bowl",
+    "galene-fluted-grey-glass-plate",
+    "galene-fluted-natural-glass-bowl",
+    "galene-fluted-natural-glass-plate",
+    "galene-fluted-white-glass-bowl",
+    "galene-fluted-white-glass-plate",
+    "broc-sandstone-bubble-bowl",
+    "broc-cream-bubble-bowl",
+    "tibor-travertine-square-bowl",
+    "tibor-travertine-bowl",
+    "pietra-sandstone-pedestal-bowl",
+    "fazio-green-marble-bowl",
+    "fazio-green-marble-catchall",
+    "savio-white-fluted-marble-trinket",
+    "mira-ivory-rippled-bowl",
+    # Home Living (rope, jute, bamboo, travertine, cream/ivory, natural)
+    "montreal-ivory-armless-chair",
+    "maxwell-stone-fabric-chair",
+    "maxwell-beige-fabric-chair",
+    "maxwell-set-of-2-beige-arms",
+    "anglet-cream-3-seater-sofa",
+    "valerie-beige-sofa-bed",
+    "bandar-small-rope-bench",
+    "bandar-rope-stool",
+    "bandar-large-rope-bench",
+    "mota-burl-round-stool",
+    "mota-burl-square-stool",
+    "satna-jute-chair",
+    "satna-jute-bench",
+    "wilbur-cream-marble-coffee-table",
+    "wilbur-white-marble-coffee-table",
+    "wilbur-travertine-brown-coffee-table",
+    "walton-travertine-coffee-table",
+    "winton-travertine-side-table",
+    "bambusa-bamboo-coffee-table",
+    "bambusa-bamboo-side-table",
+    "bambusa-bamboo-round-mirror",
+    "naro-mango-gold-side-table",
+    "womad-set-of-2-marble-side-tables",
+    "nirav-green-marble-side-table",
+    "carta-oatmeal-etched-table-lamp",
+    "elana-glass-black-base-lamp",
+    "sellis-glass-black-metal-lamp",
+    "sangar-mango-wood-mirror",
+    "bosie-natural-terracotta-cushion",
+    "bosie-natural-grey-cushion",
+    "bosie-natural-black-floor-cushion",
+    "sanai-cotton-mache-planter",
+    "tibor-mango-wood-sculpture",
+}
+
+
 CATEGORIES = [
     {
         "id": "kitchen-and-dining",
@@ -1604,6 +1668,7 @@ async def list_products(
     category: Optional[str] = None,
     is_new: Optional[bool] = None,
     on_sale: Optional[bool] = None,
+    summer: Optional[bool] = None,
     sort: Optional[str] = Query(None, regex="^(price_asc|price_desc|newest|featured)$"),
     search: Optional[str] = None,
     min_price: Optional[float] = None,
@@ -1618,6 +1683,8 @@ async def list_products(
         query["is_new"] = is_new
     if on_sale is not None:
         query["on_sale"] = on_sale
+    if summer:
+        query["id"] = {"$in": list(SUMMER_IDS)}
     if search:
         query["$or"] = [
             {"name": {"$regex": search, "$options": "i"}},

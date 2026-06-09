@@ -27,7 +27,7 @@ export default function Shop() {
     useEffect(() => {
         setLoading(true);
         (async () => {
-            const q = {};
+            const q = { summer: true };
             if (category && category !== "All") q.category = category;
             if (isNew) q.is_new = true;
             if (onSale) q.on_sale = true;
@@ -110,12 +110,12 @@ export default function Shop() {
             <section className="border-b border-ma-border">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
                     <Reveal>
-                        <span className="ma-eyebrow">{onSale ? "Sale" : isNew ? "New In" : category === "All" ? "Shop All" : category}</span>
-                        <h1 className="font-serif text-[48px] md:text-[64px] leading-tight mt-3">
-                            {onSale ? "On Sale" : isNew ? "Just Arrived" : category === "All" ? "Shop All" : category}
+                        <span className="ma-eyebrow" data-testid="summer-eyebrow">Summer 2026 · The Edit</span>
+                        <h1 className="font-serif text-[40px] sm:text-[56px] md:text-[64px] leading-tight mt-3">
+                            {onSale ? "Summer Sale" : isNew ? "Summer · New In" : category === "All" ? <>Long evenings, <span className="italic text-ma-gold">easy entertaining.</span></> : `Summer · ${category}`}
                         </h1>
-                        <p className="text-ma-muted mt-3 max-w-xl text-[14px]">
-                            {search ? `Showing results for “${search}”` : onSale ? "Limited-time savings on selected pieces." : "Curated pieces for timeless interiors."}
+                        <p className="text-ma-muted mt-4 max-w-xl text-[14px] leading-[1.85]">
+                            {search ? `Showing summer results for “${search}”` : onSale ? "Limited-time savings on selected summer pieces." : "A quiet edit of fluted glass, sun-warmed travertine, hand-woven jute and rope — pieces built for long lunches, slow afternoons and rooms that breathe."}
                         </p>
                     </Reveal>
                 </div>

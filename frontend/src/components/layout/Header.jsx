@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const NAV = [
     { label: "NEW IN", href: "/shop?new=true" },
-    { label: "SHOP", href: "/shop" },
+    { label: "SUMMER", href: "/shop" },
     { label: "KITCHEN & DINING", href: "/shop?category=Kitchen+%26+Dining" },
     { label: "HOME LIVING", href: "/shop?category=Home+Living" },
     { label: "SALE", href: "/shop?sale=true" },
