@@ -279,6 +279,45 @@ async def send_shipping_email(order: dict, tracking_number: str | None = None, c
 
 
 # ---------------------------------------------------------------------------
+# Delivered email — sent when order is marked delivered
+# ---------------------------------------------------------------------------
+
+def _delivered_html(order: dict) -> str:
+    order_id_short = (order.get("id") or "")[:8].upper()
+    address = order.get("address") or {}
+    name = (address.get("first_name") or "").strip() or "there"
+    cta = _btn(f"{_frontend()}/account/orders/{order.get('id','')}", "View Your Order →")
+    return f"""<!DOCTYPE html><html><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#fafafa;font-family:Helvetica,Arial,sans-serif">
+  <div style="max-width:620px;margin:0 auto;background:#ffffff">
+    {_header_html()}
+    <div style="padding:40px 36px 8px;text-align:center">
+      <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:0.22em;color:{_BRAND_GOLD};text-transform:uppercase">Delivered</div>
+      <h1 style="font-family:Georgia,serif;font-weight:500;font-size:36px;color:{_BRAND_TEXT};margin:14px 0 8px;line-height:1.1">It's arrived, {name}.</h1>
+      <p style="font-size:14px;color:{_BRAND_MUTED};margin:12px 0 0;line-height:1.6;max-width:440px;display:inline-block">
+        Order <strong style="color:{_BRAND_TEXT}">#{order_id_short}</strong> has been delivered. Take a moment, unpack slowly, and find each piece its place.
+      </p>
+      <p style="font-size:13px;color:{_BRAND_MUTED};margin:24px 0 0;line-height:1.6;max-width:440px;display:inline-block">
+        If anything isn't quite right, just reply to this email — we'll make it right ourselves.
+      </p>
+    </div>
+    <div style="padding:24px 36px 40px;text-align:center">{cta}</div>
+    {_footer_html()}
+  </div>
+</body></html>"""
+
+
+async def send_delivered_email(order: dict) -> None:
+    order_id_short = (order.get("id") or "")[:8].upper()
+    await _send(
+        to_email=order.get("user_email"),
+        subject=f"Your MA Home Interiors order #{order_id_short} has been delivered",
+        html=_delivered_html(order),
+        label="delivered email",
+    )
+
+
+# ---------------------------------------------------------------------------
 # Abandoned bag email — sent if checkout sits unpaid for > threshold
 # ---------------------------------------------------------------------------
 
