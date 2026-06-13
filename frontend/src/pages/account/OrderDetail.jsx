@@ -148,7 +148,7 @@ export default function OrderDetail() {
                 {(order.items || []).map((it) => (
                     <div key={it.product_id} className="flex gap-4 p-5">
                         <div className="w-16 h-20 bg-ma-warm overflow-hidden flex-shrink-0">
-                            <img src={it.image} alt={it.name} className="w-full h-full object-cover" />
+                            <img src={it.image} alt={it.name} className="w-full h-full object-contain p-2" />
                         </div>
                         <div className="flex-1">
                             <p className="font-serif text-[18px]">{it.name}</p>

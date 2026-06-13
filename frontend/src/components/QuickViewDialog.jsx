@@ -39,7 +39,7 @@ export default function QuickViewDialog({ product, open, onOpenChange }) {
                 </button>
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="aspect-[4/5] md:aspect-auto md:min-h-[520px] bg-ma-warm overflow-hidden">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain p-6" />
                     </div>
                     <div className="p-6 md:p-10 flex flex-col overflow-y-auto max-h-[80vh] md:max-h-[640px]">
                         <span className="ma-eyebrow">{product.category}</span>

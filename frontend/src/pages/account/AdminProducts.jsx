@@ -139,7 +139,7 @@ export default function AdminProducts() {
                                 <tr key={p.id} className="border-t border-ma-border" data-testid={`admin-prod-${p.id}`}>
                                     <td className="p-3 w-14">
                                         <div className="w-12 h-14 bg-ma-warm overflow-hidden">
-                                            {p.image && <img src={p.image} alt={p.name} className="w-full h-full object-cover" />}
+                                            {p.image && <img src={p.image} alt={p.name} className="w-full h-full object-contain bg-ma-warm p-1" />}
                                         </div>
                                     </td>
                                     <td className="p-3">

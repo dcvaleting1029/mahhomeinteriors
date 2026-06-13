@@ -41,7 +41,7 @@ export default function CartDrawer() {
                             {items.map((it) => (
                                 <div key={it.product_id} data-testid={`cart-line-${it.product_id}`} className="flex gap-4 py-5">
                                     <Link to={`/product/${it.slug}`} onClick={() => setOpen(false)} className="block w-20 h-24 overflow-hidden bg-ma-warm flex-shrink-0">
-                                        <img src={it.image} alt={it.name} className="w-full h-full object-cover" />
+                                        <img src={it.image} alt={it.name} className="w-full h-full object-contain p-2" />
                                     </Link>
                                     <div className="flex-1 flex flex-col">
                                         <div className="flex items-start justify-between gap-2">

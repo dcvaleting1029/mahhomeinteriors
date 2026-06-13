@@ -35,7 +35,7 @@ export default function Wishlist() {
                     {products.map((p) => (
                         <div key={p.id} className="flex gap-4 border border-ma-border p-4" data-testid={`wishlist-item-${p.id}`}>
                             <Link to={`/product/${p.slug}`} className="w-24 h-28 bg-ma-warm overflow-hidden flex-shrink-0">
-                                <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                                <img src={p.image} alt={p.name} className="w-full h-full object-contain p-4" />
                             </Link>
                             <div className="flex-1 flex flex-col">
                                 <Link to={`/product/${p.slug}`} className="font-serif text-[18px] hover:text-ma-gold leading-tight">{p.name}</Link>

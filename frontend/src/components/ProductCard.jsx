@@ -26,7 +26,7 @@ export default function ProductCard({ product, eager = false }) {
                             src={product.image}
                             alt={product.name}
                             loading={eager ? "eager" : "lazy"}
-                            className="product-img w-full h-full object-cover"
+                            className="product-img w-full h-full object-contain p-4 sm:p-5"
                         />
                         {isNew && !isSale && (
                             <span
