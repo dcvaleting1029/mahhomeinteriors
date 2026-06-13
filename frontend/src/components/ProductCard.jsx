@@ -21,7 +21,7 @@ export default function ProductCard({ product, eager = false }) {
                 className="product-card group flex flex-col bg-white border border-transparent hover:border-ma-border transition-[border-color] duration-500"
             >
                 <div className="relative">
-                    <Link to={`/product/${product.slug || product.id}`} className="relative block overflow-hidden bg-ma-warm aspect-[4/5]">
+                    <Link to={`/product/${product.slug || product.id}`} className="relative block overflow-hidden bg-white aspect-[4/5]">
                         <img
                             src={product.image}
                             alt={product.name}

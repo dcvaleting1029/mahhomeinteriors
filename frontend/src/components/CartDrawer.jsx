@@ -40,7 +40,7 @@ export default function CartDrawer() {
                         <div className="flex-1 overflow-y-auto px-6 py-4 divide-y divide-ma-border">
                             {items.map((it) => (
                                 <div key={it.product_id} data-testid={`cart-line-${it.product_id}`} className="flex gap-4 py-5">
-                                    <Link to={`/product/${it.slug}`} onClick={() => setOpen(false)} className="block w-20 h-24 overflow-hidden bg-ma-warm flex-shrink-0">
+                                    <Link to={`/product/${it.slug}`} onClick={() => setOpen(false)} className="block w-20 h-24 overflow-hidden bg-white border border-ma-border flex-shrink-0">
                                         <img src={it.image} alt={it.name} className="w-full h-full object-contain p-2" />
                                     </Link>
                                     <div className="flex-1 flex flex-col">

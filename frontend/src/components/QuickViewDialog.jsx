@@ -38,7 +38,7 @@ export default function QuickViewDialog({ product, open, onOpenChange }) {
                     <X size={16} strokeWidth={1.4} />
                 </button>
                 <div className="grid grid-cols-1 md:grid-cols-2">
-                    <div className="aspect-[4/5] md:aspect-auto md:min-h-[520px] bg-ma-warm overflow-hidden">
+                    <div className="aspect-[4/5] md:aspect-auto md:min-h-[520px] bg-white overflow-hidden">
                         <img src={product.image} alt={product.name} className="w-full h-full object-contain p-6" />
                     </div>
                     <div className="p-6 md:p-10 flex flex-col overflow-y-auto max-h-[80vh] md:max-h-[640px]">

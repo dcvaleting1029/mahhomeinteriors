@@ -50,7 +50,7 @@ export default function ProductDetail() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
                     {/* Gallery */}
                     <Reveal duration={900}>
-                        <div className="aspect-[4/5] overflow-hidden bg-ma-warm group" data-testid="product-main-image">
+                        <div className="aspect-[4/5] overflow-hidden bg-white group" data-testid="product-main-image">
                             <img src={gallery[activeImg]} alt={p.name} className="w-full h-full object-contain p-6 sm:p-8 transition-transform duration-[1200ms] group-hover:scale-105" />
                         </div>
                         {gallery.length > 1 && (
@@ -60,7 +60,7 @@ export default function ProductDetail() {
                                         key={i}
                                         data-testid={`thumb-${i}`}
                                         onClick={() => setActiveImg(i)}
-                                        className={`aspect-square overflow-hidden border-2 transition-colors bg-ma-warm ${i === activeImg ? "border-ma-gold" : "border-transparent hover:border-ma-border"}`}
+                                        className={`aspect-square overflow-hidden border-2 transition-colors bg-white ${i === activeImg ? "border-ma-gold" : "border-transparent hover:border-ma-border"}`}
                                     >
                                         <img src={g} alt="" className="w-full h-full object-contain p-2" />
                                     </button>

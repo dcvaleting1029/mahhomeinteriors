@@ -60,7 +60,7 @@ export default function CartPage() {
                         <div className="divide-y divide-ma-border border-t border-ma-border">
                             {items.map((it) => (
                                 <div key={it.product_id} data-testid={`cartpage-line-${it.product_id}`} className="flex gap-6 py-8">
-                                    <Link to={`/product/${it.slug}`} className="w-28 h-32 overflow-hidden bg-ma-warm flex-shrink-0">
+                                    <Link to={`/product/${it.slug}`} className="w-28 h-32 overflow-hidden bg-white border border-ma-border flex-shrink-0">
                                         <img src={it.image} alt={it.name} className="w-full h-full object-contain p-3" />
                                     </Link>
                                     <div className="flex-1">

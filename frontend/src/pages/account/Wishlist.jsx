@@ -34,7 +34,7 @@ export default function Wishlist() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {products.map((p) => (
                         <div key={p.id} className="flex gap-4 border border-ma-border p-4" data-testid={`wishlist-item-${p.id}`}>
-                            <Link to={`/product/${p.slug}`} className="w-24 h-28 bg-ma-warm overflow-hidden flex-shrink-0">
+                            <Link to={`/product/${p.slug}`} className="w-24 h-28 bg-white border border-ma-border overflow-hidden flex-shrink-0">
                                 <img src={p.image} alt={p.name} className="w-full h-full object-contain p-4" />
                             </Link>
                             <div className="flex-1 flex flex-col">
